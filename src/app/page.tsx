@@ -1,0 +1,775 @@
+import Image, { type StaticImageData } from "next/image";
+import { Figure, Section, Subsection } from "@/components/ui";
+import { publicPath } from "@/lib/paths";
+import SimplifyStepper from "@/components/SimplifyStepper";
+import WorkshopFlow from "@/components/WorkshopFlow";
+import JargonTranslator from "@/components/JargonTranslator";
+import SyncTimeline from "@/components/SyncTimeline";
+import CameraSetupDiagram from "@/components/CameraSetupDiagram";
+import {
+  AudioGraphic,
+  ConceptTile,
+  NarrativeGraphic,
+  PedagogyGraphic,
+  VisualsGraphic,
+} from "@/components/ConceptGraphics";
+import VideoPlanner from "@/components/VideoPlanner";
+
+import earthConceptual from "@/assets/earth-conceptual.jpg";
+import earthDetail from "@/assets/earth-detail.jpg";
+import ehtPoster from "@/assets/eht-poster.jpg";
+import m87SolarSystem from "@/assets/m87-solar-system.jpg";
+import vlbiBoth from "@/assets/vlbi-both.jpg";
+import learningLab from "@/assets/learning-lab.jpg";
+import adobeExpressLogo from "@/assets/logos/adobe-express.jpg";
+import iMovieLogo from "@/assets/logos/imovie.png";
+import capCutLogo from "@/assets/logos/capcut.jpg";
+import canvaLogo from "@/assets/logos/canva.jpg";
+import premiereProLogo from "@/assets/logos/premiere-pro.jpg";
+import finalCutProLogo from "@/assets/logos/final-cut-pro.png";
+
+const NAV = [
+  { id: "basics", label: "Basics" },
+  { id: "example", label: "Example" },
+  { id: "visuals", label: "Visuals" },
+  { id: "audio", label: "Audio" },
+  { id: "sync", label: "Sync" },
+  { id: "flow", label: "Workshop flow" },
+  { id: "script", label: "Script" },
+  { id: "prep", label: "Resources" },
+  { id: "tips", label: "Tips" },
+];
+
+const AUDIO_PRINCIPLES = [
+  [
+    "Translate jargon",
+    "Say it the way you’d explain it to a friend. Wherever an everyday word exists, use it.",
+  ],
+  [
+    "Define key terms",
+    "When a technical term matters, define it in plain words the first time you say it, then use it the same way every time.",
+  ],
+  [
+    "Use everyday metaphors",
+    "Compare complex ideas to things your audience already knows, like an orange on the Moon for the size of a black hole.",
+  ],
+  [
+    "Keep it concise",
+    "One idea per sentence. Viewers can’t re-read narration, so if a detail doesn’t set up the next idea, cut it.",
+  ],
+  [
+    "Don’t be afraid of pauses",
+    "A pause after a key idea lets your audience breathe and process it. A moment of silence over a good visual is fine.",
+  ],
+  [
+    "Read it aloud",
+    "Read your script out loud. Anything you stumble over, or that you wouldn’t say to a friend, needs rewording.",
+  ],
+] as const;
+
+const SYNC_TIPS = [
+  [
+    "Give every idea a visual",
+    "When you introduce a new idea, show something for it. Several ideas spoken over one unchanging visual leave viewers with nothing to hold on to.",
+  ],
+  [
+    "Grow speech and visuals together",
+    "If the narration gets more detailed, add detail to the visual too: a label, an annotation, a more technical figure. If you can’t, simplify the sentence.",
+  ],
+  [
+    "Bring visuals in on the word",
+    "Each visual should appear as the narration mentions it: not a sentence early, where it distracts, or a sentence late, where it confuses.",
+  ],
+  [
+    "Point at what you’re describing",
+    "Use your hand, an arrow or a highlight to show which part of the visual you’re talking about right now.",
+  ],
+] as const;
+
+const RECORDING_OPTIONS = [
+  {
+    title: "Narrate live while you film",
+    summary:
+      "Talk through your script as you move the props, with both cameras rolling.",
+    pros: [
+      "Hands-on demonstrations, where actions match words",
+      "Sync comes for free: voice and visuals are recorded together",
+      "A personal feel, especially with your face on camera",
+      "Minimal editing post-recording: cutting away missed takes, audio balancing, and changing camera views"
+    ],
+    cons: [
+      "Doing two things is harder than it looks: practice before you film",
+      "Trying to get the perfect take: small stumbles in speech or movement are okay!",
+    ],
+  },
+  {
+    title: "Record a voiceover separately",
+    summary:
+      "Record the narration on its own, then film or gather visuals to fit it.",
+    pros: [
+      "Cleaner, more even audio",
+      "Easy to re-record a single sentence",
+      "Videos built mostly from digital images or animation",
+    ],
+    cons: [
+      "You line every visual up with the voice in the edit",
+      "Filmed actions have to be timed to fit the recording",
+      "Editing time can be substantial"
+    ],
+  },
+];
+
+const PROP_TYPES = [
+  {
+    eyebrow: "Made by hand",
+    title: "Physical",
+    points: ["Lean physical when possible — less editing time", "Maximal control"],
+    images: [
+      { src: ehtPoster, alt: "Printed Event Horizon Telescope poster" },
+      { src: earthConceptual, alt: "Hand-made paper Earth" },
+    ],
+  },
+  {
+    eyebrow: "Made on screen",
+    title: "Digital",
+    points: [
+      "High-resolution / existing graphics",
+      "Animations and annotation can introduce movement and dynamics",
+    ],
+    images: [
+      {
+        src: m87SolarSystem,
+        alt: "EHT image of the M87 black hole, annotated with the size of the Solar System for scale",
+      },
+    ],
+  },
+];
+
+const EDITING_SOFTWARE = [
+  {
+    title: "Beginner movie editing software",
+    note: "Quick to learn, with free versions available.",
+    recommended: true,
+    apps: [
+      { name: "Adobe Express", src: adobeExpressLogo },
+      { name: "iMovie", src: iMovieLogo },
+      { name: "CapCut", src: capCutLogo },
+      { name: "Canva", src: canvaLogo },
+    ],
+  },
+  {
+    title: "Professional grade",
+    note: "More powerful, with a steeper learning curve.",
+    recommended: false,
+    apps: [
+      { name: "Premiere Pro", src: premiereProLogo },
+      { name: "Final Cut Pro", src: finalCutProLogo },
+    ],
+  },
+];
+
+export default function Home() {
+  return (
+    <main className="flex-1">
+      <header className="sticky top-0 z-20 border-b border-line bg-background/80 backdrop-blur">
+        <nav
+          aria-label="Sections"
+          className="mx-auto flex max-w-6xl items-center gap-6 overflow-x-auto px-5 py-4 text-sm whitespace-nowrap sm:px-8"
+        >
+          <a href="#top" className="font-semibold">
+            Astro 98
+          </a>
+          {NAV.map((n) => (
+            <a
+              key={n.id}
+              href={`#${n.id}`}
+              className="text-muted transition-colors hover:text-foreground"
+            >
+              {n.label}
+            </a>
+          ))}
+        </nav>
+      </header>
+
+      {/* Title */}
+      <section
+        id="top"
+        className="mx-auto flex min-h-[80vh] max-w-6xl flex-col justify-end px-5 pt-24 pb-20 sm:px-8"
+      >
+        <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
+          Astro 98 · Bok Workshop
+        </p>
+        <h1 className="mt-5 text-5xl font-bold tracking-tight text-balance sm:text-7xl">
+          Making an Explainer Video
+        </h1>
+        <p className="mt-5 max-w-2xl text-xl text-muted text-pretty">
+          A guide to planning, filming and editing a short science explainer,
+          from script to finished video.
+        </p>
+        <p className="mt-6 text-2xl font-semibold">Erandi Chavez</p>
+        <p className="mt-2 text-muted">Nov 5, 2025</p>
+      </section>
+
+      {/* 1. Basics */}
+      <Section
+        id="basics"
+        index={1}
+        eyebrow="Fundamentals"
+        title="Explainer Video Basics"
+      >
+        <div className="space-y-16">
+          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-14">
+            <div>
+              <p className="mb-3 font-mono text-xs tracking-[0.2em] text-muted uppercase">
+                Audio–visual elements
+              </p>
+              <p className="text-lg text-pretty sm:text-xl">
+                In an explainer video, you have maximal control over the
+                audience experience. You control what they{" "}
+                <Key>see</Key> and <Key>hear</Key>. You also control the full
+                flow of information, determining what they learn, and the exact
+                order in which they learn it.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <ConceptTile label="Visuals">
+                <VisualsGraphic />
+              </ConceptTile>
+              <ConceptTile label="Audio">
+                <AudioGraphic />
+              </ConceptTile>
+            </div>
+          </div>
+
+          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-14">
+            <div>
+              <p className="mb-3 font-mono text-xs tracking-[0.2em] text-muted uppercase">
+                Story elements
+              </p>
+              <p className="text-lg text-pretty sm:text-xl">
+                Effective explainer videos use visuals and sounds to create{" "}
+                <Key>narrative</Key>. This narrative will gradually build ideas{" "}
+                <Key>from simple to complex</Key>, providing all the knowledge
+                your audience needs to follow along. Visuals and the audio can
+                become more complex as the narrative builds them up.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <ConceptTile label="Narrative">
+                <NarrativeGraphic />
+              </ConceptTile>
+              <ConceptTile label="Pedagogy">
+                <PedagogyGraphic />
+              </ConceptTile>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* 2. Example */}
+      <Section
+        id="example"
+        index={2}
+        eyebrow="What to watch for"
+        title="Explainer Video Example"
+      >
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+          <video
+            controls
+            playsInline
+            preload="metadata"
+            poster={publicPath("/videos/astro98-resource-poster.jpg")}
+            className="aspect-video w-full rounded-2xl border border-line bg-surface"
+          >
+            <source
+              src={publicPath("/videos/astro98-resource.mp4")}
+              type="video/mp4"
+            />
+            Your browser doesn’t support embedded video.
+          </video>
+          <aside
+            aria-label="Things to watch for"
+            className="rounded-2xl border border-line bg-surface p-6 lg:self-stretch"
+          >
+            <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
+              While you watch
+            </p>
+            <p className="mt-2 mb-6 text-xl font-semibold">
+              Things to watch for:
+            </p>
+            <dl className="space-y-5">
+              {[
+                ["Props / Assets", "Physical vs digital"],
+                ["Technicality", "Cartoon vs technical figure"],
+                ["Pedagogy", "Defining key terms"],
+              ].map(([term, detail]) => (
+                <div key={term} className="border-l-2 border-accent pl-4">
+                  <dt className="text-lg font-semibold">{term}</dt>
+                  <dd className="mt-0.5 text-muted">{detail}</dd>
+                </div>
+              ))}
+            </dl>
+          </aside>
+        </div>
+        <div className="mt-12 grid gap-6 lg:grid-cols-2">
+          <div className="rounded-3xl border border-line bg-surface p-7">
+            <p className="text-center text-muted">
+              For teaching purposes, this example:
+            </p>
+            <ul className="mt-5 grid gap-3 text-center text-lg sm:grid-cols-3">
+              <li className="rounded-xl bg-surface-2 p-3">has lots of props</li>
+              <li className="rounded-xl bg-surface-2 p-3">is very long</li>
+              <li className="rounded-xl bg-surface-2 p-3">is broad in topic</li>
+            </ul>
+          </div>
+          <div className="rounded-3xl border-2 border-accent p-7">
+            <p className="text-center font-semibold text-accent">
+              For your own video, aim for:
+            </p>
+            <ul className="mt-5 grid gap-3 text-center text-lg sm:grid-cols-3">
+              <li className="rounded-xl bg-accent/10 p-3">
+                A shorter script{" "}
+                <span className="block text-sm text-muted">(250–300 words)</span>
+              </li>
+              <li className="rounded-xl bg-accent/10 p-3">
+                A tighter focus, with fewer props
+              </li>
+              <li className="rounded-xl bg-accent/10 p-3">
+                A topic specific to <em>your</em> project
+              </li>
+            </ul>
+          </div>
+        </div>
+      </Section>
+
+      {/* 3. Visuals */}
+      <Section
+        id="visuals"
+        index={3}
+        eyebrow="What the viewer sees"
+        title="Visuals"
+        lede="Choosing, simplifying and building the images that carry your explanation."
+      >
+        <Subsection
+          id="graphics"
+          number="3.1"
+          title="Graphical Representations"
+          lede={
+            <>
+              Build intuition through <em>simplification</em>!
+            </>
+          }
+        >
+          <SimplifyStepper />
+        </Subsection>
+
+        <Subsection
+          id="technical"
+          number="3.2"
+          title="Technical Graphics / Figures"
+          lede={
+            <>
+              Establish conceptual understanding first, <em>then</em> technical
+              understanding.
+            </>
+          }
+        >
+          <div className="grid gap-8 md:grid-cols-3">
+            <Figure
+              src={earthConceptual}
+              alt="Paper Earth with blank white patches where telescopes will go"
+              caption="Conceptual"
+            />
+            <Figure
+              src={earthDetail}
+              alt="The same paper Earth with telescope icons connected by orange lines"
+              caption="Add Detail"
+            />
+            <Figure
+              src={ehtPoster}
+              alt="Event Horizon Telescope poster: a global network of radio telescopes"
+              caption="Transition to Technical"
+            />
+          </div>
+          <div className="mt-8 flex items-center" aria-hidden="true">
+            <div className="h-1 flex-1 rounded-l-full bg-gradient-to-r from-line via-muted to-foreground" />
+            <span className="h-0 w-0 border-y-[9px] border-l-[14px] border-y-transparent border-l-foreground" />
+          </div>
+          <p className="mt-6 text-center text-xl font-medium">
+            Visual parallels help!
+          </p>
+        </Subsection>
+
+        <Subsection
+          id="physical-digital"
+          number="3.3"
+          title={
+            <>
+              Physical <span className="text-muted">vs</span> Digital
+            </>
+          }
+        >
+          <div className="grid gap-6 lg:grid-cols-2">
+            {PROP_TYPES.map((type) => (
+              <div
+                key={type.title}
+                className="flex flex-col overflow-hidden rounded-3xl border border-line bg-surface"
+              >
+                <div className="grid aspect-[16/9] grid-flow-col gap-px bg-line">
+                  {type.images.map((img) => (
+                    <div key={img.alt} className="relative bg-surface-2">
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        fill
+                        placeholder="blur"
+                        sizes="(min-width: 1024px) 33vw, 100vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className="p-6 sm:p-7">
+                  <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
+                    {type.eyebrow}
+                  </p>
+                  <h4 className="mt-2 text-2xl font-semibold">{type.title}</h4>
+                  <ul className="mt-4 space-y-2">
+                    {type.points.map((point) => (
+                      <li key={point} className="flex gap-2">
+                        <span
+                          aria-hidden="true"
+                          className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-muted"
+                        />
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 grid overflow-hidden rounded-3xl border-2 border-accent lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+            <div className="relative aspect-[16/9] lg:aspect-auto lg:min-h-80">
+              <Image
+                src={vlbiBoth}
+                alt="A hand places a 'VLBI' card next to the paper Earth, which has telescope icons joined by glowing orange lines"
+                fill
+                placeholder="blur"
+                sizes="(min-width: 1024px) 60vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="flex flex-col justify-center p-6 sm:p-8">
+              <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
+                Best of both
+              </p>
+              <h4 className="mt-2 text-2xl font-semibold">Why not both!</h4>
+              <p className="mt-4 text-muted">
+                Film your physical props, then layer digital elements, such as
+                labels, highlights or annotations, on top in the edit. You keep
+                the control of physical props and gain the movement of digital
+                ones.
+              </p>
+            </div>
+          </div>
+        </Subsection>
+      </Section>
+
+      {/* 4. Audio */}
+      <Section
+        id="audio"
+        index={4}
+        eyebrow="What the viewer hears"
+        title="Audio"
+        lede="Your narration needs the same simplification as your visuals."
+      >
+        <Subsection
+          id="narration"
+          number="4.1"
+          title="Simplifying Your Narration"
+          lede="Translate jargon, and explain each idea concisely and clearly."
+        >
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {AUDIO_PRINCIPLES.map(([title, body]) => (
+              <li
+                key={title}
+                className="rounded-2xl border border-line bg-surface p-5"
+              >
+                <p className="text-lg font-semibold">{title}</p>
+                <p className="mt-2 text-muted">{body}</p>
+              </li>
+            ))}
+          </ul>
+        </Subsection>
+
+        <Subsection
+          id="jargon"
+          number="4.2"
+          title="From Jargon to Plain Language"
+          lede="The same three ideas, written two ways. Switch between them to see what changes."
+        >
+          <JargonTranslator />
+        </Subsection>
+      </Section>
+
+      {/* 5. Syncing visuals and audio */}
+      <Section
+        id="sync"
+        index={5}
+        eyebrow="Put it together"
+        title="Syncing Visuals & Audio"
+        lede="Your narration and visuals should complement each other, in timing and in complexity. Each idea you say needs something on screen, and the visual should keep pace as the explanation gets more detailed."
+      >
+        <Subsection
+          id="timing"
+          number="5.1"
+          title="Match Timing and Complexity"
+          lede="Compare three versions of the same explanation, and watch the readout for the two most common mistakes."
+        >
+          <SyncTimeline />
+        </Subsection>
+
+        <Subsection id="sync-tips" number="5.2" title="Tips for Syncing">
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {SYNC_TIPS.map(([title, body]) => (
+              <li
+                key={title}
+                className="rounded-2xl border border-line bg-surface p-5"
+              >
+                <p className="text-lg font-semibold">{title}</p>
+                <p className="mt-2 text-muted">{body}</p>
+              </li>
+            ))}
+          </ul>
+        </Subsection>
+
+        <Subsection
+          id="live-or-voiceover"
+          number="5.3"
+          title="Narrate Live, or Record a Voiceover?"
+        >
+          <div className="grid gap-6 lg:grid-cols-2">
+            {RECORDING_OPTIONS.map((opt) => (
+              <div
+                key={opt.title}
+                className="rounded-3xl border border-line bg-surface p-7"
+              >
+                <p className="text-xl font-semibold">{opt.title}</p>
+                <p className="mt-2 text-muted">{opt.summary}</p>
+                <div className="mt-6 grid gap-6 sm:grid-cols-2">
+                  {(
+                    [
+                      ["Good for", opt.pros, "text-accent"],
+                      ["Watch out for", opt.cons, "text-warn"],
+                    ] as const
+                  ).map(([heading, items, tone]) => (
+                    <div key={heading}>
+                      <p className={`text-sm font-semibold ${tone}`}>{heading}</p>
+                      <ul className="mt-2 space-y-2">
+                        {items.map((item) => (
+                          <li key={item} className="flex gap-2">
+                            <span
+                              aria-hidden="true"
+                              className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-muted"
+                            />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Subsection>
+      </Section>
+
+      {/* 6. Workshop flow */}
+      <Section id="flow" index={6} eyebrow="Process" title="Workshop Flow">
+        <WorkshopFlow />
+      </Section>
+
+      {/* 7. Scripting */}
+      <Section
+        id="script"
+        index={7}
+        eyebrow="Start here"
+        title="Scripting Your Video"
+        lede="Plan what the viewer hears and what they see side by side, before you write a single full sentence."
+      >
+        <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            [
+              "Bullet the story",
+              "List your main points in order: A → B → C. Keep it to what your project needs, and note where a key term must be defined.",
+            ],
+            [
+              "Pair every point with a visual",
+              "Fill in the right-hand column. Lean physical, reuse props where you can, and start conceptual before going technical.",
+            ],
+            [
+              "Check the pacing",
+              "Aim for about 1 visual per ~3 sentences. A point with no visual, or three visuals at once, is a sign to rework it.",
+            ],
+            [
+              "Write it out",
+              "Turn the bullets into a full script of 250–300 words. Read it aloud to check it sounds natural.",
+            ],
+          ].map(([title, body], i) => (
+            <li
+              key={title}
+              className="rounded-2xl border border-line bg-surface p-5"
+            >
+              <span className="font-mono text-sm text-accent">
+                Step {i + 1}
+              </span>
+              <p className="mt-2 text-lg font-semibold">{title}</p>
+              <p className="mt-2 text-muted">{body}</p>
+            </li>
+          ))}
+        </ol>
+
+        <div className="mt-14">
+          <VideoPlanner />
+        </div>
+      </Section>
+
+      {/* 8. Available resources */}
+      <Section
+        id="prep"
+        index={8}
+        eyebrow="Materials"
+        title="Available Resources"
+      >
+        <div className="grid gap-12 lg:grid-cols-2">
+          <div>
+            <h3 className="mb-6 text-2xl font-semibold">Physical Materials</h3>
+            <Figure
+              src={learningLab}
+              alt="The Learning Lab studio: colourful stools, lighting rigs, shelves of craft supplies and a laptop"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+            />
+            <p className="mt-6 rounded-2xl border border-line bg-surface p-6 text-xl font-medium text-balance">
+              If it’s in an I SPY book… it’s probably in the Learning Lab!
+            </p>
+          </div>
+
+          <div>
+            <h3 className="mb-6 text-2xl font-semibold">Digital Materials</h3>
+            <div className="space-y-6">
+              {EDITING_SOFTWARE.map((tier) => (
+                <div
+                  key={tier.title}
+                  className={`rounded-3xl p-6 ${
+                    tier.recommended
+                      ? "border-2 border-accent"
+                      : "border border-line bg-surface"
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-lg font-semibold">{tier.title}</p>
+                      <p className="mt-1 text-sm text-muted">{tier.note}</p>
+                    </div>
+                    {tier.recommended ? (
+                      <span className="shrink-0 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-black">
+                        Start here
+                      </span>
+                    ) : null}
+                  </div>
+                  <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                    {tier.apps.map((app) => (
+                      <LogoTile key={app.name} {...app} />
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* 9. Tips */}
+      <Section id="tips" index={9} eyebrow="Before you start" title="Tips">
+        <div className="grid items-start gap-12 lg:grid-cols-2">
+          <div className="space-y-10">
+            <div>
+              <p className="text-xl font-semibold">
+                Prioritize multi-use and physical visualizations
+              </p>
+              <ul className="mt-5 grid gap-3 sm:grid-cols-3">
+                {[
+                  ["Less props", "Less work"],
+                  ["Less editing", "Less time"],
+                  ["1 visual", "per ~3 sentences"],
+                ].map(([a, b]) => (
+                  <li
+                    key={a}
+                    className="rounded-2xl border border-line bg-surface p-4"
+                  >
+                    <span className="block text-lg font-semibold">{a}</span>
+                    <span className="block text-accent">= {b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="text-xl font-semibold">
+                Want to make it more personal? Include footage of your face!
+              </p>
+              <p className="mt-3 text-lg text-muted">
+                The Learning Lab will have 2 cameras recording{" "}
+                <em className="text-foreground">at the same time</em>!
+              </p>
+            </div>
+          </div>
+          <figure>
+            <div className="rounded-2xl border border-line bg-surface p-4 sm:p-6">
+              <CameraSetupDiagram />
+            </div>
+            <figcaption className="mt-3 text-center text-base font-medium">
+              The Learning Lab’s Setup
+            </figcaption>
+          </figure>
+        </div>
+      </Section>
+
+      <footer className="border-t border-line px-5 py-10 text-center text-sm text-muted">
+        <p>Making an Explainer Video · Erandi Chavez · Astro 98 Bok Workshop</p>
+        <p className="mx-auto mt-3 max-w-3xl text-xs text-pretty">
+          Image credits: M87 size comparison from{" "}
+          <a
+            href="https://xkcd.com/2135/"
+            className="underline underline-offset-2 hover:text-foreground"
+          >
+            xkcd #2135
+          </a>{" "}
+          by Randall Munroe (CC BY-NC 2.5). Black hole simulation image from the
+          Event Horizon Telescope Collaboration. App icons are trademarks of
+          their respective owners.
+        </p>
+      </footer>
+    </main>
+  );
+}
+
+function LogoTile({ src, name }: { src: StaticImageData; name: string }) {
+  return (
+    <li className="flex flex-col items-center rounded-2xl border border-line bg-surface-2 px-3 py-5">
+      <Image
+        src={src}
+        alt=""
+        sizes="4rem"
+        className="h-14 w-14 rounded-[22%] shadow-lg shadow-black/40 ring-1 ring-white/10"
+      />
+      <span className="mt-3 text-center text-sm font-medium">{name}</span>
+    </li>
+  );
+}
+
+function Key({ children }: { children: React.ReactNode }) {
+  return <strong className="font-semibold text-accent">{children}</strong>;
+}

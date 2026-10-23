@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+:root {
+  --background: #050505;
+  --surface: #111111;
+  --surface-2: #1a1a1a;
+  --line: #2a2a2a;
+  --foreground: #f5f5f5;
+  --muted: #a3a3a3;
+  --accent: #e8823f;
+  --warn: #f07a7a;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-warn: var(--warn);
+  --font-sans: var(--font-geist-sans);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: #000;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .planner-print,
+  .planner-print * {
+    visibility: visible;
+    color: #000 !important;
+    background: #fff !important;
+    border-color: #999 !important;
+  }
+  .planner-print {
+    position: absolute;
+    inset: 0 0 auto 0;
+  }
+  .planner-print textarea::placeholder {
+    color: transparent;
+  }
+}
+
+/* Sync timeline scrubber: the input is invisible (the thumb is drawn in
+   React), but its thumb is fixed at 16px so dragging maps to the same time. */
+.timeline-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 1.25rem;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.timeline-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+}
+.timeline-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 0;
+}
