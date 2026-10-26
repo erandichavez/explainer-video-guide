@@ -6,11 +6,11 @@ import {
   TipGrid,
   type Tip,
 } from "@/components/ui";
-import { publicPath } from "@/lib/paths";
 import SimplifyStepper from "@/components/SimplifyStepper";
 import WorkshopFlow from "@/components/WorkshopFlow";
 import JargonTranslator from "@/components/JargonTranslator";
 import SyncTimeline from "@/components/SyncTimeline";
+import ExampleVideo from "@/components/ExampleVideo";
 import CameraSetupDiagram from "@/components/CameraSetupDiagram";
 import {
   AudioGraphic,
@@ -351,31 +351,18 @@ export default function Home() {
         eyebrow="What to watch for"
         title="Explainer Video Example"
       >
-        <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-          <video
-            controls
-            playsInline
-            preload="metadata"
-            poster={publicPath("/videos/astro98-resource-poster.jpg")}
-            className="aspect-video w-full rounded-2xl border border-line bg-surface"
-          >
-            <source
-              src={publicPath("/videos/astro98-resource.mp4")}
-              type="video/mp4"
-            />
-            Your browser doesn’t support embedded video.
-          </video>
+        <ExampleVideo>
           <aside
             aria-label="Things to watch for"
-            className="rounded-2xl border border-line bg-surface p-6 lg:self-stretch"
+            className="rounded-2xl border border-line bg-surface p-6"
           >
             <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
               While you watch
             </p>
-            <p className="mt-2 mb-6 text-xl font-semibold">
+            <p className="mt-2 mb-5 text-xl font-semibold">
               Things to watch for:
             </p>
-            <dl className="space-y-5">
+            <dl className="grid gap-5 sm:grid-cols-3">
               {[
                 ["Props / Assets", "Physical vs digital"],
                 ["Technicality", "Cartoon vs technical figure"],
@@ -388,36 +375,7 @@ export default function Home() {
               ))}
             </dl>
           </aside>
-        </div>
-        <div className="mt-12 grid gap-6 lg:grid-cols-2">
-          <div className="rounded-3xl border border-line bg-surface p-7">
-            <p className="text-center text-muted">
-              For teaching purposes, this example:
-            </p>
-            <ul className="mt-5 grid gap-3 text-center text-lg sm:grid-cols-3">
-              <li className="rounded-xl bg-surface-2 p-3">has lots of props</li>
-              <li className="rounded-xl bg-surface-2 p-3">is very long</li>
-              <li className="rounded-xl bg-surface-2 p-3">is broad in topic</li>
-            </ul>
-          </div>
-          <div className="rounded-3xl border-2 border-accent p-7">
-            <p className="text-center font-semibold text-accent">
-              For your own video, aim for:
-            </p>
-            <ul className="mt-5 grid gap-3 text-center text-lg sm:grid-cols-3">
-              <li className="rounded-xl bg-accent/10 p-3">
-                A shorter script{" "}
-                <span className="block text-sm text-muted">(250–300 words)</span>
-              </li>
-              <li className="rounded-xl bg-accent/10 p-3">
-                A tighter focus, with fewer props
-              </li>
-              <li className="rounded-xl bg-accent/10 p-3">
-                A topic specific to <em>your</em> project
-              </li>
-            </ul>
-          </div>
-        </div>
+        </ExampleVideo>
       </Section>
 
       {/* 3. Visuals */}
