@@ -172,10 +172,18 @@ const EDITING_SOFTWARE = [
     note: "Quick to learn, with free versions available.",
     recommended: true,
     apps: [
-      { name: "Adobe Express", src: adobeExpressLogo },
-      { name: "iMovie", src: iMovieLogo },
-      { name: "CapCut", src: capCutLogo },
-      { name: "Canva", src: canvaLogo },
+      {
+        name: "Adobe Express",
+        src: adobeExpressLogo,
+        href: "https://www.adobe.com/express/",
+      },
+      {
+        name: "iMovie",
+        src: iMovieLogo,
+        href: "https://www.apple.com/imovie/",
+      },
+      { name: "CapCut", src: capCutLogo, href: "https://www.capcut.com/" },
+      { name: "Canva", src: canvaLogo, href: "https://www.canva.com/" },
     ],
   },
   {
@@ -183,8 +191,16 @@ const EDITING_SOFTWARE = [
     note: "More powerful, with a steeper learning curve.",
     recommended: false,
     apps: [
-      { name: "Premiere Pro", src: premiereProLogo },
-      { name: "Final Cut Pro", src: finalCutProLogo },
+      {
+        name: "Premiere Pro",
+        src: premiereProLogo,
+        href: "https://www.adobe.com/products/premiere.html",
+      },
+      {
+        name: "Final Cut Pro",
+        src: finalCutProLogo,
+        href: "https://www.apple.com/final-cut-pro/",
+      },
     ],
   },
 ];
@@ -861,16 +877,44 @@ export default function Home() {
   );
 }
 
-function LogoTile({ src, name }: { src: StaticImageData; name: string }) {
+function LogoTile({
+  src,
+  name,
+  href,
+}: {
+  src: StaticImageData;
+  name: string;
+  href: string;
+}) {
   return (
-    <li className="flex flex-col items-center rounded-2xl border border-line bg-surface-2 px-3 py-5">
-      <Image
-        src={src}
-        alt=""
-        sizes="4rem"
-        className="h-14 w-14 rounded-[22%] shadow-lg shadow-black/40 ring-1 ring-white/10"
-      />
-      <span className="mt-3 text-center text-sm font-medium">{name}</span>
+    <li>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${name} website (opens in a new tab)`}
+        className="group relative flex h-full flex-col items-center rounded-2xl border border-line bg-surface-2 px-3 py-5 transition-colors hover:border-accent hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          className="absolute top-2.5 right-2.5 h-3.5 w-3.5 text-muted transition-colors group-hover:text-accent"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M7 17 17 7M9 7h8v8" />
+        </svg>
+        <Image
+          src={src}
+          alt=""
+          sizes="4rem"
+          className="h-14 w-14 rounded-[22%] shadow-lg shadow-black/40 ring-1 ring-white/10 transition-transform group-hover:scale-105"
+        />
+        <span className="mt-3 text-center text-sm font-medium">{name}</span>
+      </a>
     </li>
   );
 }
