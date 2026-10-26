@@ -100,3 +100,28 @@ export function Figure({
     </figure>
   );
 }
+
+export type Tip = { title: string; body: string };
+
+/** A grid of tip cards. */
+export function TipGrid({
+  tips,
+  className = "",
+}: {
+  tips: readonly Tip[];
+  className?: string;
+}) {
+  return (
+    <ul className={`grid gap-4 ${className}`}>
+      {tips.map((tip) => (
+        <li
+          key={tip.title}
+          className="rounded-2xl border border-line bg-surface p-5"
+        >
+          <p className="text-lg font-semibold">{tip.title}</p>
+          <p className="mt-2 text-muted">{tip.body}</p>
+        </li>
+      ))}
+    </ul>
+  );
+}

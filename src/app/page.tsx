@@ -1,12 +1,12 @@
 import Image, { type StaticImageData } from "next/image";
-import { Figure, Section, Subsection } from "@/components/ui";
-import { publicPath } from "@/lib/paths";
 import {
-  Evidence,
-  ResearchOverview,
+  Figure,
+  Section,
+  Subsection,
   TipGrid,
   type Tip,
-} from "@/components/Research";
+} from "@/components/ui";
+import { publicPath } from "@/lib/paths";
 import SimplifyStepper from "@/components/SimplifyStepper";
 import WorkshopFlow from "@/components/WorkshopFlow";
 import JargonTranslator from "@/components/JargonTranslator";
@@ -43,14 +43,12 @@ const NAV = [
   { id: "flow", label: "Workshop flow" },
   { id: "before-lab", label: "Before the Lab" },
   { id: "at-lab", label: "At the Lab" },
-  { id: "research", label: "Research" },
 ];
 
 const AUDIO_PRINCIPLES: readonly Tip[] = [
   {
     title: "Talk with your viewer",
     body: "Use a conversational style, with “you”, “we” and “let’s”. “Let’s look at how the telescopes link up” draws viewers in more than “This video describes the telescope network.”",
-    cite: ["personalization"],
   },
   {
     title: "Translate jargon",
@@ -59,7 +57,6 @@ const AUDIO_PRINCIPLES: readonly Tip[] = [
   {
     title: "Define key terms",
     body: "Introduce the names of the key parts before you explain how they work together, and define each the first time you say it. Viewers who already know the pieces can focus on the explanation.",
-    cite: ["pre-training"],
   },
   {
     title: "Use everyday metaphors",
@@ -68,7 +65,6 @@ const AUDIO_PRINCIPLES: readonly Tip[] = [
   {
     title: "Keep it concise",
     body: "One idea per sentence, and cut asides that are interesting but don’t explain anything. Extra details, however fun, pull attention away from the main idea.",
-    cite: ["coherence"],
   },
   {
     title: "Don’t be afraid of pauses",
@@ -81,7 +77,6 @@ const AUDIO_PRINCIPLES: readonly Tip[] = [
   {
     title: "Use your own voice",
     body: "Record the narration yourself rather than using a text-to-speech voice. Viewers learn more from a natural human voice.",
-    cite: ["voice"],
   },
 ] as const;
 
@@ -89,7 +84,6 @@ const SYNC_TIPS: readonly Tip[] = [
   {
     title: "Give every idea a visual",
     body: "When you introduce a new idea, show something for it. Viewers learn more from words and pictures together than from words alone, and several ideas over one unchanging visual leave them with nothing to hold on to.",
-    cite: ["multimedia"],
   },
   {
     title: "Grow speech and visuals together",
@@ -98,22 +92,18 @@ const SYNC_TIPS: readonly Tip[] = [
   {
     title: "Bring visuals in on the word",
     body: "Show each visual at the same moment the narration describes it, not a sentence before or after.",
-    cite: ["temporal-contiguity"],
   },
   {
     title: "Point at what you’re describing",
     body: "Use your hand, an arrow or a highlight to show which part of the visual you’re talking about right now. Keep these cues for what matters, or they lose their effect.",
-    cite: ["signaling", "embodiment"],
   },
   {
     title: "Don’t put your narration on screen",
     body: "Text that repeats what you’re saying competes with your voice and the visuals. A few words to label a key term or technical name are fine.",
-    cite: ["redundancy"],
   },
   {
     title: "Put labels next to what they name",
     body: "When you add a label or arrow, place it right beside the part it refers to, not in a caption at the bottom of the screen.",
-    cite: ["spatial-contiguity"],
   },
 ] as const;
 
@@ -207,7 +197,6 @@ const PROP_PLANNING: readonly Tip[] = [
   {
     title: "Fewer props, less work",
     body: "Every prop is time to make and time to film, and a prop that doesn’t carry an idea from your script distracts from the ones that do. Cut it.",
-    cite: ["coherence"],
   },
   {
     title: "Sketch each prop",
@@ -227,7 +216,6 @@ const ASSET_CURATION: readonly Tip[] = [
   {
     title: "Leave out the merely interesting",
     body: "Skip images that are eye-catching but don’t explain anything. Interesting-but-irrelevant extras reduce how much viewers learn.",
-    cite: ["coherence"],
   },
   {
     title: "Track sources and permissions",
@@ -236,7 +224,6 @@ const ASSET_CURATION: readonly Tip[] = [
   {
     title: "Plan your annotations",
     body: "Note where you’ll add arrows, labels or highlights in the edit, and plan to place each label right next to the part it names.",
-    cite: ["signaling", "spatial-contiguity"],
   },
 ] as const;
 
@@ -325,7 +312,6 @@ export default function Home() {
                 your audience needs to follow along. Visuals and the audio can
                 become more complex as the narrative builds them up.
               </p>
-              <Evidence ids={["multimedia"]} className="mt-4" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <ConceptTile label="Narrative">
@@ -411,7 +397,6 @@ export default function Home() {
                 A topic specific to <em>your</em> project
               </li>
             </ul>
-            <Evidence ids={["coherence"]} className="mt-5 justify-center" />
           </div>
         </div>
       </Section>
@@ -435,7 +420,6 @@ export default function Home() {
           }
         >
           <SimplifyStepper />
-          <Evidence ids={["coherence", "signaling"]} className="mt-8" />
         </Subsection>
 
         <Subsection
@@ -450,7 +434,6 @@ export default function Home() {
             </>
           }
         >
-          <Evidence ids={["pre-training"]} className="-mt-4 mb-8" />
           <div className="grid gap-8 md:grid-cols-3">
             <Figure
               src={earthConceptual}
@@ -562,7 +545,6 @@ export default function Home() {
         title="Audio"
         lede="Your narration needs the same simplification as your visuals. Explain out loud rather than with paragraphs of on-screen text, so viewers can watch the visuals while they listen."
       >
-        <Evidence ids={["modality"]} className="-mt-4 mb-12" />
         <Subsection
           id="narration"
           number="4.1"
@@ -590,10 +572,6 @@ export default function Home() {
         title="Syncing Visuals & Audio"
         lede="Your narration and visuals should complement each other, in timing and in complexity. Each idea you say needs something on screen at the same moment, and the visual should keep pace as the explanation gets more detailed."
       >
-        <Evidence
-          ids={["temporal-contiguity", "multimedia"]}
-          className="-mt-4 mb-12"
-        />
         <Subsection
           id="timing"
           number="5.1"
@@ -715,7 +693,6 @@ export default function Home() {
           title="Recording Audio"
           lede="Choose whether to narrate as you film or to record your voice on its own. Either way, use your own voice rather than a computer-generated one."
         >
-          <Evidence ids={["voice"]} className="-mt-4 mb-8" />
           <div className="grid gap-6 lg:grid-cols-2">
             {RECORDING_OPTIONS.map((opt) => (
               <div
@@ -775,7 +752,6 @@ export default function Home() {
                 actively explaining, and to the overhead camera when the props
                 are doing the work.
               </p>
-              <Evidence ids={["image", "embodiment"]} className="mt-4" />
             </div>
             <figure>
               <div className="rounded-2xl border border-line bg-surface p-4 sm:p-6">
@@ -826,17 +802,6 @@ export default function Home() {
         </Subsection>
       </Section>
 
-      {/* 9. Research */}
-      <Section
-        id="research"
-        index={9}
-        eyebrow="Why this works"
-        title="The Research Behind This Guide"
-        lede="Much of the advice above follows research-based principles for multimedia instruction summarized by Richard Mayer. Click any research tag on this page to jump to its principle here."
-      >
-        <ResearchOverview />
-      </Section>
-
       <footer className="border-t border-line px-5 py-10 text-center text-sm text-muted">
         <p>Making an Explainer Video · Erandi Chavez · Astro 98 Bok Workshop</p>
         <p className="mx-auto mt-3 max-w-3xl text-xs text-pretty">
@@ -850,6 +815,19 @@ export default function Home() {
           by Randall Munroe (CC BY-NC 2.5). Black hole simulation image from the
           Event Horizon Telescope Collaboration. App icons are trademarks of
           their respective owners.
+        </p>
+        <p className="mx-auto mt-3 max-w-3xl text-xs text-pretty">
+          Reference: Mayer, R. E. (2014). Research-based principles for
+          designing multimedia instruction. In V. A. Benassi, C. E. Overson,
+          &amp; C. M. Hakala (Eds.),{" "}
+          <a
+            href="https://www.teachpsych.org/ebooks/asle2014"
+            className="italic underline underline-offset-2 hover:text-foreground"
+          >
+            Applying science of learning in education: Infusing psychological
+            science into the curriculum
+          </a>
+          . Society for the Teaching of Psychology.
         </p>
       </footer>
     </main>
