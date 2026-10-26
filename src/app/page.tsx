@@ -51,10 +51,6 @@ const AUDIO_PRINCIPLES: readonly Tip[] = [
     body: "Use a conversational style, with “you”, “we” and “let’s”. “Let’s look at how the telescopes link up” draws viewers in more than “This video describes the telescope network.”",
   },
   {
-    title: "Translate jargon",
-    body: "Say it the way you’d explain it to a friend. Wherever an everyday word exists, use it.",
-  },
-  {
     title: "Define key terms",
     body: "Introduce the names of the key parts before you explain how they work together, and define each the first time you say it. Viewers who already know the pieces can focus on the explanation.",
   },
@@ -69,14 +65,6 @@ const AUDIO_PRINCIPLES: readonly Tip[] = [
   {
     title: "Don’t be afraid of pauses",
     body: "A pause after a key idea lets your audience breathe and process it. A moment of silence over a good visual is fine.",
-  },
-  {
-    title: "Read it aloud",
-    body: "Read your script out loud. Anything you stumble over, or that you wouldn’t say to a friend, needs rewording.",
-  },
-  {
-    title: "Use your own voice",
-    body: "Record the narration yourself rather than using a text-to-speech voice. Viewers learn more from a natural human voice.",
   },
 ] as const;
 
@@ -582,7 +570,7 @@ export default function Home() {
           title="Simplifying Your Narration"
           lede="Translate jargon, and explain each idea concisely and clearly."
         >
-          <TipGrid tips={AUDIO_PRINCIPLES} className="sm:grid-cols-2 lg:grid-cols-4" />
+          <TipGrid tips={AUDIO_PRINCIPLES} className="sm:grid-cols-2 lg:grid-cols-3" />
         </Subsection>
 
         <Subsection
