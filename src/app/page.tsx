@@ -227,6 +227,21 @@ const ASSET_CURATION: readonly Tip[] = [
   },
 ] as const;
 
+const COMPLEXITY_TIPS: readonly Tip[] = [
+  {
+    title: "Introduce the pieces first",
+    body: "Name and show the key parts before explaining how they work together, such as the black hole and the plasma before the telescope network that imaged them. Mayer calls this pre-training: viewers who already know the pieces can focus on how they connect.",
+  },
+  {
+    title: "Add one step at a time",
+    body: "Complicated material delivered too quickly overloads viewers. Break the explanation into short steps and let each one land, with its visual, before adding the next.",
+  },
+  {
+    title: "Label new technical terms",
+    body: "When the narration introduces a technical term, a short on-screen label helps, like the “VLBI” card in the example video. Keep it to the term itself, not a sentence.",
+  },
+] as const;
+
 export default function Home() {
   return (
     <main className="flex-1">
@@ -575,10 +590,22 @@ export default function Home() {
         <Subsection
           id="timing"
           number="5.1"
-          title="Match Timing and Complexity"
-          lede="Compare three versions of the same explanation, and watch the readout for the two most common mistakes."
+          title="Show and Tell at the Same Time"
+          lede="Mayer’s temporal contiguity principle: people learn more deeply when narration and the matching visual are presented together, rather than one before the other. Together, words and picture can be connected as they arrive; apart, the viewer has to hold one in memory while waiting for the other. Compare three versions of the same explanation."
         >
           <SyncTimeline />
+
+          <div className="mt-14">
+            <h4 className="text-2xl font-semibold">
+              Building complexity as you go
+            </h4>
+            <p className="mt-2 mb-6 max-w-3xl text-muted">
+              Timing is only half of it. Mayer’s research also shows that people
+              follow complicated material better when it arrives in manageable
+              steps, starting with the simple pieces.
+            </p>
+            <TipGrid tips={COMPLEXITY_TIPS} className="md:grid-cols-3" />
+          </div>
         </Subsection>
 
         <Subsection id="sync-tips" number="5.2" title="Tips for Syncing">

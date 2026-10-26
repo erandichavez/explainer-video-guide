@@ -2,320 +2,114 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const DURATION = 12; // seconds of pretend timeline
+const DURATION = 16; // seconds of pretend timeline
 
-type Level = 1 | 2 | 3;
-type SpeechClip = {
-  start: number;
-  end: number;
-  idea: string;
-  level: Level;
-  label: string;
-};
-type VisualClip = {
-  start: number;
-  end: number;
-  shows: string[]; // ideas this visual illustrates
-  level: Level;
-  label: string;
-};
+// The same four-part explanation is used in every version; only the timing
+// of narration relative to visuals changes. This mirrors the comparison in
+// Mayer's temporal contiguity research: simultaneous vs. successive.
+const IDEAS = [
+  {
+    id: "bh",
+    say: "“M87 has a black hole at its centre.”",
+    show: "Black hole prop",
+  },
+  {
+    id: "plasma",
+    say: "“Glowing plasma swirls around it.”",
+    show: "Add plasma ring",
+  },
+  {
+    id: "vlbi",
+    say: "“Telescopes around the world link up…”",
+    show: "Paper Earth + telescopes",
+  },
+  {
+    id: "eht",
+    say: "“…into one Earth-sized telescope.”",
+    show: "EHT network map",
+  },
+];
+
+type Clip = { id: string; start: number; end: number; label: string };
+
+/** Lay the four ideas end to end, starting at `from`, each `each` seconds long. */
+const lay = (from: number, each: number, field: "say" | "show"): Clip[] =>
+  IDEAS.map((idea, i) => ({
+    id: idea.id,
+    start: from + i * each,
+    end: from + (i + 1) * each,
+    label: idea[field],
+  }));
+
 type Version = {
   id: string;
   tab: string;
   note: string;
-  speech: SpeechClip[];
-  visuals: VisualClip[];
+  speech: Clip[];
+  visuals: Clip[];
 };
-
-const GOOD_VISUALS: VisualClip[] = [
-  { start: 0, end: 3, shows: ["bh"], level: 1, label: "Black hole prop" },
-  {
-    start: 3,
-    end: 6,
-    shows: ["bh", "plasma"],
-    level: 1,
-    label: "Add plasma ring",
-  },
-  {
-    start: 6,
-    end: 9,
-    shows: ["vlbi"],
-    level: 2,
-    label: "Paper Earth + telescopes",
-  },
-  {
-    start: 9,
-    end: 12,
-    shows: ["vlbi", "eht"],
-    level: 3,
-    label: "EHT network map",
-  },
-];
 
 const VERSIONS: Version[] = [
   {
-    id: "good",
-    tab: "Complementary",
-    note: "Every new idea gets a visual, and the visuals get more detailed as the narration does.",
-    speech: [
-      {
-        start: 0,
-        end: 3,
-        idea: "bh",
-        level: 1,
-        label: "“M87 has a black hole at its centre.”",
-      },
-      {
-        start: 3,
-        end: 6,
-        idea: "plasma",
-        level: 1,
-        label: "“Glowing plasma swirls around it.”",
-      },
-      {
-        start: 6,
-        end: 9,
-        idea: "vlbi",
-        level: 2,
-        label: "“Telescopes around the world link up…”",
-      },
-      {
-        start: 9,
-        end: 12,
-        idea: "eht",
-        level: 3,
-        label: "“…into one Earth-sized telescope: the EHT.”",
-      },
-    ],
-    visuals: GOOD_VISUALS,
+    id: "together",
+    tab: "Together",
+    note: "Each visual appears while you describe it, so viewers connect the words and the picture as they go.",
+    speech: lay(0, 4, "say"),
+    visuals: lay(0, 4, "show"),
   },
   {
-    id: "crowded",
-    tab: "Too many ideas",
-    note: "Six ideas, two visuals. Most of the narration has nothing on screen to anchor it.",
-    speech: [
-      {
-        start: 0,
-        end: 2,
-        idea: "bh",
-        level: 1,
-        label: "“M87 has a black hole…”",
-      },
-      {
-        start: 2,
-        end: 4,
-        idea: "plasma",
-        level: 1,
-        label: "“…ringed by plasma…”",
-      },
-      {
-        start: 4,
-        end: 6,
-        idea: "mass",
-        level: 2,
-        label: "“…6.5 billion Suns in mass…”",
-      },
-      {
-        start: 6,
-        end: 8,
-        idea: "distance",
-        level: 2,
-        label: "“…55 million light-years away.”",
-      },
-      {
-        start: 8,
-        end: 10,
-        idea: "vlbi",
-        level: 2,
-        label: "“Telescopes link up…”",
-      },
-      { start: 10, end: 12, idea: "eht", level: 3, label: "“…as the EHT.”" },
-    ],
-    visuals: [
-      { start: 0, end: 6, shows: ["bh"], level: 1, label: "Black hole prop" },
-      {
-        start: 6,
-        end: 12,
-        shows: ["vlbi"],
-        level: 2,
-        label: "Paper Earth + telescopes",
-      },
-    ],
+    id: "narration-first",
+    tab: "Narration first",
+    note: "The whole explanation is heard first, then the visuals play in silence. Viewers have to hold the words in memory until the matching picture arrives.",
+    speech: lay(0, 2, "say"),
+    visuals: lay(8, 2, "show"),
   },
   {
-    id: "outgrown",
-    tab: "Speech outgrows the visual",
-    note: "The narration turns technical, but the screen still shows the simple prop from the start.",
-    speech: [
-      {
-        start: 0,
-        end: 3,
-        idea: "bh",
-        level: 1,
-        label: "“M87 has a black hole at its centre.”",
-      },
-      {
-        start: 3,
-        end: 6,
-        idea: "plasma",
-        level: 1,
-        label: "“Glowing plasma swirls around it.”",
-      },
-      {
-        start: 6,
-        end: 9,
-        idea: "bh",
-        level: 3,
-        label: "“Gravity bends its light into a photon ring…”",
-      },
-      {
-        start: 9,
-        end: 12,
-        idea: "bh",
-        level: 3,
-        label: "“…sized as relativity predicts for a spinning black hole.”",
-      },
-    ],
-    visuals: [
-      { start: 0, end: 3, shows: ["bh"], level: 1, label: "Black hole prop" },
-      {
-        start: 3,
-        end: 12,
-        shows: ["bh", "plasma"],
-        level: 1,
-        label: "Plasma ring prop",
-      },
-    ],
+    id: "visuals-first",
+    tab: "Visuals first",
+    note: "The visuals play first, then the narration. Viewers see each picture before they know what it shows, and have to remember it until the explanation catches up.",
+    speech: lay(8, 2, "say"),
+    visuals: lay(0, 2, "show"),
   },
 ];
 
-type Status = "match" | "no-visual" | "too-complex";
-
-const STATUS: Record<Status, { label: string; good: boolean }> = {
-  match: { label: "Complementary", good: true },
-  "no-visual": { label: "No visual for this idea", good: false },
-  "too-complex": { label: "Speech outgrows the visual", good: false },
-};
-
-function statusOf(speech?: SpeechClip, visual?: VisualClip): Status {
-  if (!speech || !visual || !visual.shows.includes(speech.idea))
-    return "no-visual";
-  return speech.level > visual.level ? "too-complex" : "match";
-}
-
-const at = <T extends { start: number; end: number }>(clips: T[], t: number) =>
+const at = (clips: Clip[], t: number) =>
   clips.find((c) => t >= c.start && t < c.end);
 
-function Dots({ level, large = false }: { level: Level; large?: boolean }) {
-  return (
-    <span
-      className={`flex ${large ? "gap-1" : "gap-0.5"}`}
-      aria-label={`Complexity ${level} of 3`}
-    >
-      {[1, 2, 3].map((n) => (
-        <span
-          key={n}
-          className={`rounded-full ${large ? "h-2.5 w-2.5" : "h-1.5 w-1.5"} ${n <= level ? "bg-current" : "bg-current opacity-25"}`}
-        />
-      ))}
-    </span>
-  );
-}
+const secs = (n: number) => {
+  const r = Math.max(1, Math.round(n));
+  return `${r} second${r === 1 ? "" : "s"}`;
+};
 
-const LEVELS: {
-  level: Level;
-  name: string;
-  speech: string;
-  visual: string;
-  example: string;
-}[] = [
-  {
-    level: 1,
-    name: "Simple",
-    speech: "One everyday idea in plain words, with no jargon.",
-    visual: "A single prop or shape, with nothing extra.",
-    example: "“M87 has a black hole” over the black hole prop.",
-  },
-  {
-    level: 2,
-    name: "Added detail",
-    speech:
-      "Builds on what’s already shown: a new term, a number or a connection.",
-    visual: "More parts, labels or connections added to what’s on screen.",
-    example: "“Telescopes link up” over the paper Earth with telescopes.",
-  },
-  {
-    level: 3,
-    name: "Technical",
-    speech: "The full scientific picture, with precise terms and quantities.",
-    visual: "A real scientific figure, map or data.",
-    example: "“The EHT” over the EHT network map.",
-  },
-];
-
-function ComplexityKey() {
-  return (
-    <div className="mb-8">
-      <h4 className="text-xl font-semibold">Reading the dots</h4>
-      <p className="mt-2 max-w-3xl text-muted">
-        Every clip on the timeline below, whether narration or visual, has a row
-        of three dots. The number of filled dots shows how complex that piece
-        is.
-      </p>
-      <ol className="mt-5 grid gap-4 md:grid-cols-3">
-        {LEVELS.map((l) => (
-          <li
-            key={l.level}
-            className="rounded-2xl border border-line bg-surface p-5"
-          >
-            <div className="flex items-center gap-3 text-accent">
-              <Dots level={l.level} large />
-              <span className="font-semibold text-foreground">{l.name}</span>
-            </div>
-            <dl className="mt-4 space-y-2 text-sm">
-              <div>
-                <dt className="text-xs tracking-wide text-muted uppercase">
-                  Narration
-                </dt>
-                <dd>{l.speech}</dd>
-              </div>
-              <div>
-                <dt className="text-xs tracking-wide text-muted uppercase">
-                  Visual
-                </dt>
-                <dd>{l.visual}</dd>
-              </div>
-              <div>
-                <dt className="text-xs tracking-wide text-muted uppercase">
-                  Example
-                </dt>
-                <dd className="text-muted">{l.example}</dd>
-              </div>
-            </dl>
-          </li>
-        ))}
-      </ol>
-      <p className="mt-5 max-w-3xl rounded-2xl border-l-2 border-accent bg-surface-2 px-5 py-4">
-        <span className="font-semibold">The rule:</span> a visual should have at
-        least as many dots as the narration playing over it. When the narration
-        has more dots than the visual, add detail to the visual, or simplify the
-        sentence.
-      </p>
-    </div>
-  );
+/** What the viewer is left juggling when words and picture are apart. */
+function gapNote(version: Version, t: number, hearing?: Clip, seeing?: Clip) {
+  if (hearing && seeing && hearing.id === seeing.id) return null;
+  if (seeing) {
+    const words = version.speech.find((c) => c.id === seeing.id)!;
+    return words.end <= t
+      ? `To make sense of this picture, the viewer has to recall words they heard ${secs(t - words.start)} ago.`
+      : `The viewer won’t hear what this picture shows for another ${secs(words.start - t)}.`;
+  }
+  if (hearing) {
+    const picture = version.visuals.find((c) => c.id === hearing.id)!;
+    return picture.end <= t
+      ? `The matching picture was on screen ${secs(t - picture.start)} ago; the viewer has to recall it.`
+      : `The matching picture won’t appear for another ${secs(picture.start - t)}; the viewer has to hold these words until then.`;
+  }
+  return null;
 }
 
 function Track({
   name,
   clips,
   current,
-  flagged,
+  together,
   tone,
 }: {
   name: string;
-  clips: (SpeechClip | VisualClip)[];
-  current?: SpeechClip | VisualClip;
-  flagged?: boolean;
+  clips: Clip[];
+  current?: Clip;
+  together: boolean;
   tone: "audio" | "visual";
 }) {
   return (
@@ -323,12 +117,12 @@ function Track({
       <span className="text-xs font-medium tracking-wide text-muted uppercase">
         {name}
       </span>
-      <div className="relative h-16 rounded-lg bg-surface-2">
+      <div className="relative h-14 rounded-lg bg-surface-2">
         {clips.map((c) => {
           const active = current === c;
           const color = !active
             ? "border-line bg-surface text-muted"
-            : flagged
+            : !together
               ? "border-warn bg-warn/15 text-foreground"
               : tone === "audio"
                 ? "border-foreground bg-foreground/15 text-foreground"
@@ -336,14 +130,13 @@ function Track({
           return (
             <div
               key={`${c.start}-${c.label}`}
-              className={`absolute inset-y-1 flex flex-col justify-between overflow-hidden rounded-md border px-2 py-1.5 text-xs leading-tight transition-colors duration-300 sm:text-sm ${color}`}
+              className={`absolute inset-y-1 flex items-center overflow-hidden rounded-md border px-2 text-xs leading-tight transition-colors duration-300 sm:text-sm ${color}`}
               style={{
                 left: `calc(${(c.start / DURATION) * 100}% + 2px)`,
                 width: `calc(${((c.end - c.start) / DURATION) * 100}% - 4px)`,
               }}
             >
               <span className="line-clamp-2">{c.label}</span>
-              <Dots level={c.level} />
             </div>
           );
         })}
@@ -417,12 +210,16 @@ export default function SyncTimeline() {
   const version = VERSIONS.find((v) => v.id === versionId)!;
   const hearing = at(version.speech, t);
   const seeing = at(version.visuals, t);
-  const status = statusOf(hearing, seeing);
-  const { label, good } = STATUS[status];
+  const together = !!hearing && !!seeing && hearing.id === seeing.id;
+  const label = together
+    ? "Heard and seen together"
+    : hearing
+      ? "Heard, but not seen"
+      : "Seen, but not heard";
+  const note = gapNote(version, t, hearing, seeing);
 
   return (
     <div>
-      <ComplexityKey />
       <div className="rounded-3xl border border-line bg-surface p-5 sm:p-7">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div
@@ -461,14 +258,14 @@ export default function SyncTimeline() {
             name="Narration"
             clips={version.speech}
             current={hearing}
-            flagged={!good}
+            together={together}
             tone="audio"
           />
           <Track
             name="Visuals"
             clips={version.visuals}
             current={seeing}
-            flagged={!good}
+            together={together}
             tone="visual"
           />
           {/* Playhead, drawn over the track area only */}
@@ -537,11 +334,14 @@ export default function SyncTimeline() {
           </p>
           <span
             className={`justify-self-start rounded-full px-3 py-1 text-sm font-semibold sm:justify-self-end ${
-              good ? "bg-accent text-black" : "bg-warn/20 text-warn"
+              together ? "bg-accent text-black" : "bg-warn/20 text-warn"
             }`}
           >
             {label}
           </span>
+          {note ? (
+            <p className="text-sm text-warn sm:col-span-3">{note}</p>
+          ) : null}
         </div>
       </div>
     </div>
