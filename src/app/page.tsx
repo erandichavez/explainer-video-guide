@@ -38,34 +38,34 @@ import finalCutProLogo from "@/assets/logos/final-cut-pro.png";
 const AUDIO_PRINCIPLES: readonly Tip[] = [
   {
     title: "Talk with your viewer",
-    body: "Use a conversational style, with “you”, “we” and “let’s”. “Let’s look at how the telescopes link up” draws viewers in more than “This video describes the telescope network.”",
+    body: "Use a conversational style: “Let’s look at how the telescopes link up” draws viewers in more than “This video describes the telescope network.”",
   },
   {
     title: "Define key terms",
-    body: "Introduce the names of the key parts before you explain how they work together, and define each the first time you say it. Viewers who already know the pieces can focus on the explanation.",
+    body: "Introduce the key parts and define each term the first time you say it, so viewers can focus on how the pieces fit together.",
   },
   {
     title: "Use everyday metaphors",
-    body: "Compare complex ideas to things your audience already knows, like an orange on the Moon for the size of a black hole.",
+    body: "Compare complex ideas to things your audience already knows, like an orange on the Moon for a black hole’s size.",
   },
   {
     title: "Keep it concise",
-    body: "One idea per sentence, and cut asides that are interesting but don’t explain anything. Extra details, however fun, pull attention away from the main idea.",
+    body: "One idea per sentence. Cut asides that are interesting but don’t explain anything; they pull attention from the main idea.",
   },
   {
     title: "Don’t be afraid of pauses",
-    body: "A pause after a key idea lets your audience breathe and process it. A moment of silence over a good visual is fine.",
+    body: "A pause after a key idea lets your audience process it. Silence over a good visual is fine.",
   },
 ] as const;
 
 const SYNC_TIPS: readonly Tip[] = [
   {
     title: "Give every idea a visual",
-    body: "When you introduce a new idea, show something for it. Viewers learn more from words and pictures together than from words alone, and several ideas over one unchanging visual leave them with nothing to hold on to.",
+    body: "Words and pictures together teach better than words alone. Several ideas over one unchanging visual leave viewers nothing to hold on to.",
   },
   {
     title: "Grow speech and visuals together",
-    body: "If the narration gets more detailed, add detail to the visual too: a label, an annotation, a more technical figure. If you can’t, simplify the sentence.",
+    body: "As the narration gets more detailed, add detail to the visual: a label, an annotation, a more technical figure. If you can’t, simplify the sentence.",
   },
   {
     title: "Bring visuals in on the word",
@@ -73,15 +73,15 @@ const SYNC_TIPS: readonly Tip[] = [
   },
   {
     title: "Point at what you’re describing",
-    body: "Use your hand, an arrow or a highlight to show which part of the visual you’re talking about right now. Keep these cues for what matters, or they lose their effect.",
+    body: "Use your hand, an arrow or a highlight to show what you’re talking about. Save these cues for what matters, or they lose their effect.",
   },
   {
     title: "Don’t put your narration on screen",
-    body: "Text that repeats what you’re saying competes with your voice and the visuals. A few words to label a key term or technical name are fine.",
+    body: "Text repeating your narration competes with your voice and the visuals. A few words labelling a key term are fine.",
   },
   {
     title: "Put labels next to what they name",
-    body: "When you add a label or arrow, place it right beside the part it refers to, not in a caption at the bottom of the screen.",
+    body: "Place each label or arrow right beside the part it refers to, not in a caption at the bottom of the screen.",
   },
 ] as const;
 
@@ -189,11 +189,11 @@ const EDITING_SOFTWARE = [
 const PROP_PLANNING: readonly Tip[] = [
   {
     title: "Make props multi-use",
-    body: "Prioritize physical visualizations you can build on. One prop that grows through the video, like the paper Earth that gains telescopes, does the work of several.",
+    body: "Build visuals you can add to. One prop that grows through the video, like the paper Earth gaining telescopes, does the work of several.",
   },
   {
     title: "Sketch each prop",
-    body: "A quick sketch with rough sizes, colours and any labels or word cards makes building fast once you’re in the Lab.",
+    body: "A quick sketch with rough sizes, colours and any labels or word cards makes building in the Lab fast.",
   },
   {
     title: "Design for the overhead camera",
@@ -204,30 +204,30 @@ const PROP_PLANNING: readonly Tip[] = [
 const ASSET_CURATION: readonly Tip[] = [
   {
     title: "Use high-resolution originals",
-    body: "Download the largest version of each existing graphic. Small images and screenshots look blurry once they fill the screen.",
+    body: "Download the largest version of each graphic. Small images and screenshots look blurry once they fill the screen.",
   },
   {
     title: "Track sources and permissions",
-    body: "Save the link and credit line for every image as you collect it. Many science images, such as those from NASA, ESA or the EHT, can be reused with credit; images from other sources may not be.",
+    body: "Save the link and credit for every image as you go. Many NASA, ESA and EHT images can be reused with credit; others may not be.",
   },
   {
     title: "Plan your annotations",
-    body: "Note where you’ll add arrows, labels or highlights in the edit, and plan to place each label right next to the part it names.",
+    body: "Note where you’ll add arrows, labels or highlights in the edit, and place each label right next to the part it names.",
   },
 ] as const;
 
 const COMPLEXITY_TIPS: readonly Tip[] = [
   {
     title: "Introduce the pieces first",
-    body: "Name and show the key parts before explaining how they work together, such as the black hole and the plasma before the telescope network that imaged them. Mayer calls this pre-training: viewers who already know the pieces can focus on how they connect.",
+    body: "Show the key parts, like the black hole and plasma, before the telescope network that imaged them. Viewers who know the pieces can then focus on how they connect (Mayer’s pre-training principle).",
   },
   {
     title: "Add one step at a time",
-    body: "Complicated material delivered too quickly overloads viewers. Break the explanation into short steps and let each one land, with its visual, before adding the next.",
+    body: "Complicated material delivered too fast overloads viewers. Let each step land, with its visual, before adding the next.",
   },
   {
     title: "Label new technical terms",
-    body: "When the narration introduces a technical term, a short on-screen label helps, like the “VLBI” card in the example video. Keep it to the term itself, not a sentence.",
+    body: "When you introduce a technical term, a short on-screen label helps, like the “VLBI” card. Keep it to the term, not a sentence.",
   },
 ] as const;
 
