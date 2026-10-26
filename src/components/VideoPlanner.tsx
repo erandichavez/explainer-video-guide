@@ -155,7 +155,7 @@ export default function VideoPlanner() {
     <div className="planner-print">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h3 className="text-2xl font-semibold">Video Planner Sheet</h3>
+          <h4 className="text-2xl font-semibold">Video Planner Sheet</h4>
           <p className="mt-1 text-sm text-muted print:hidden">
             Drag the{" "}
             <span className="inline-block translate-y-0.5">

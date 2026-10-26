@@ -35,9 +35,8 @@ const NAV = [
   { id: "audio", label: "Audio" },
   { id: "sync", label: "Sync" },
   { id: "flow", label: "Workshop flow" },
-  { id: "script", label: "Script" },
-  { id: "prep", label: "Resources" },
-  { id: "tips", label: "Tips" },
+  { id: "before-lab", label: "Before the Lab" },
+  { id: "at-lab", label: "At the Lab" },
 ];
 
 const AUDIO_PRINCIPLES = [
@@ -167,6 +166,44 @@ const EDITING_SOFTWARE = [
     ],
   },
 ];
+
+const PROP_PLANNING = [
+  [
+    "Make props multi-use",
+    "Prioritize physical visualizations you can build on. One prop that grows through the video, like the paper Earth that gains telescopes, does the work of several.",
+  ],
+  [
+    "Fewer props, less work",
+    "Every prop is time to make and time to film. Cut any that don’t carry an idea from your script.",
+  ],
+  [
+    "Sketch each prop",
+    "A quick sketch with rough sizes, colours and any labels or word cards makes building fast once you’re in the Lab.",
+  ],
+  [
+    "Design for the overhead camera",
+    "Props need to fit on the desk and read clearly from above: flat shapes, bold colours and large handwriting.",
+  ],
+] as const;
+
+const ASSET_CURATION = [
+  [
+    "Use high-resolution originals",
+    "Download the largest version of each existing graphic. Small images and screenshots look blurry once they fill the screen.",
+  ],
+  [
+    "Keep track of sources",
+    "Save the link and credit line for every image as you collect it, so you can credit them in your video.",
+  ],
+  [
+    "Check you can reuse it",
+    "Many science images, such as those from NASA, ESA or the EHT, can be reused with credit. Images from other sources may not be.",
+  ],
+  [
+    "Plan your annotations",
+    "Note where you’ll add arrows, labels or highlights in the edit. Annotation and animation bring movement to still images.",
+  ],
+] as const;
 
 export default function Home() {
   return (
@@ -544,11 +581,134 @@ export default function Home() {
             ))}
           </ul>
         </Subsection>
+      </Section>
+
+      {/* 6. Workshop flow */}
+      <Section id="flow" index={6} eyebrow="Process" title="Workshop Flow">
+        <WorkshopFlow />
+      </Section>
+
+      {/* 7. Before the Learning Lab */}
+      <Section
+        id="before-lab"
+        index={7}
+        eyebrow="Start here"
+        title="Before the Learning Lab"
+        lede="Plan everything you can ahead of time: your script, the props you’ll build and the digital images you’ll show. Then your time in the Lab goes to making, filming and editing."
+      >
+        <Subsection
+          id="script"
+          number="7.1"
+          title="Scripting Your Video"
+          lede="Plan what the viewer hears and what they see side by side, before you write a single full sentence."
+        >
+          <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              [
+                "Bullet the story",
+                "List your main points in order: A → B → C. Keep it to what your project needs, and note where a key term must be defined.",
+              ],
+              [
+                "Pair every point with a visual",
+                "Fill in the right-hand column. Lean physical, reuse props where you can, and start conceptual before going technical.",
+              ],
+              [
+                "Check the pacing",
+                "Aim for about 1 visual per ~3 sentences. A point with no visual, or three visuals at once, is a sign to rework it.",
+              ],
+              [
+                "Write it out",
+                "Turn the bullets into a full script of 250–300 words. Read it aloud to check it sounds natural.",
+              ],
+            ].map(([title, body], i) => (
+              <li
+                key={title}
+                className="rounded-2xl border border-line bg-surface p-5"
+              >
+                <span className="font-mono text-sm text-accent">
+                  Step {i + 1}
+                </span>
+                <p className="mt-2 text-lg font-semibold">{title}</p>
+                <p className="mt-2 text-muted">{body}</p>
+              </li>
+            ))}
+          </ol>
+
+          <div className="mt-14">
+            <VideoPlanner />
+          </div>
+        </Subsection>
 
         <Subsection
-          id="live-or-voiceover"
-          number="5.3"
-          title="Narrate Live, or Record a Voiceover?"
+          id="plan-props"
+          number="7.2"
+          title="Planning Your Physical Props"
+          lede="Decide what you’ll build before you arrive, so Lab time goes to making rather than deciding."
+        >
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {PROP_PLANNING.map(([title, body]) => (
+              <li
+                key={title}
+                className="rounded-2xl border border-line bg-surface p-5"
+              >
+                <p className="text-lg font-semibold">{title}</p>
+                <p className="mt-2 text-muted">{body}</p>
+              </li>
+            ))}
+          </ul>
+        </Subsection>
+
+        <Subsection
+          id="digital-assets"
+          number="7.3"
+          title="Curating Digital Assets"
+          lede="Gather the existing images and figures you’ll show on screen, and keep track of where each one came from."
+        >
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {ASSET_CURATION.map(([title, body]) => (
+              <li
+                key={title}
+                className="rounded-2xl border border-line bg-surface p-5"
+              >
+                <p className="text-lg font-semibold">{title}</p>
+                <p className="mt-2 text-muted">{body}</p>
+              </li>
+            ))}
+          </ul>
+        </Subsection>
+      </Section>
+
+      {/* 8. At the Learning Lab */}
+      <Section
+        id="at-lab"
+        index={8}
+        eyebrow="In the studio"
+        title="At the Learning Lab"
+        lede="With your plan in hand, the Lab is where you build your props, record, film and edit. All of it can be done there."
+      >
+        <Subsection
+          id="build-props"
+          number="8.1"
+          title="Creating Physical Props"
+          lede="Bring your prop sketches and build from what’s on the shelves."
+        >
+          <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+            <Figure
+              src={learningLab}
+              alt="The Learning Lab studio: colourful stools, lighting rigs, shelves of craft supplies and a laptop"
+              sizes="(min-width: 1024px) 60vw, 100vw"
+            />
+            <p className="rounded-2xl border border-line bg-surface p-6 text-xl font-medium text-balance">
+              If it’s in an I SPY book… it’s probably in the Learning Lab!
+            </p>
+          </div>
+        </Subsection>
+
+        <Subsection
+          id="recording-audio"
+          number="8.2"
+          title="Recording Audio"
+          lede="Choose whether to narrate as you film or to record your voice on its own."
         >
           <div className="grid gap-6 lg:grid-cols-2">
             {RECORDING_OPTIONS.map((opt) => (
@@ -585,80 +745,40 @@ export default function Home() {
             ))}
           </div>
         </Subsection>
-      </Section>
 
-      {/* 6. Workshop flow */}
-      <Section id="flow" index={6} eyebrow="Process" title="Workshop Flow">
-        <WorkshopFlow />
-      </Section>
-
-      {/* 7. Scripting */}
-      <Section
-        id="script"
-        index={7}
-        eyebrow="Start here"
-        title="Scripting Your Video"
-        lede="Plan what the viewer hears and what they see side by side, before you write a single full sentence."
-      >
-        <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            [
-              "Bullet the story",
-              "List your main points in order: A → B → C. Keep it to what your project needs, and note where a key term must be defined.",
-            ],
-            [
-              "Pair every point with a visual",
-              "Fill in the right-hand column. Lean physical, reuse props where you can, and start conceptual before going technical.",
-            ],
-            [
-              "Check the pacing",
-              "Aim for about 1 visual per ~3 sentences. A point with no visual, or three visuals at once, is a sign to rework it.",
-            ],
-            [
-              "Write it out",
-              "Turn the bullets into a full script of 250–300 words. Read it aloud to check it sounds natural.",
-            ],
-          ].map(([title, body], i) => (
-            <li
-              key={title}
-              className="rounded-2xl border border-line bg-surface p-5"
-            >
-              <span className="font-mono text-sm text-accent">
-                Step {i + 1}
-              </span>
-              <p className="mt-2 text-lg font-semibold">{title}</p>
-              <p className="mt-2 text-muted">{body}</p>
-            </li>
-          ))}
-        </ol>
-
-        <div className="mt-14">
-          <VideoPlanner />
-        </div>
-      </Section>
-
-      {/* 8. Available resources */}
-      <Section
-        id="prep"
-        index={8}
-        eyebrow="Materials"
-        title="Available Resources"
-      >
-        <div className="grid gap-12 lg:grid-cols-2">
-          <div>
-            <h3 className="mb-6 text-2xl font-semibold">Physical Materials</h3>
-            <Figure
-              src={learningLab}
-              alt="The Learning Lab studio: colourful stools, lighting rigs, shelves of craft supplies and a laptop"
-              sizes="(min-width: 1024px) 50vw, 100vw"
-            />
-            <p className="mt-6 rounded-2xl border border-line bg-surface p-6 text-xl font-medium text-balance">
-              If it’s in an I SPY book… it’s probably in the Learning Lab!
-            </p>
+        <Subsection
+          id="filming"
+          number="8.3"
+          title="Filming"
+          lede="The Lab films with two cameras at the same time: one on your face, one looking down at your props."
+        >
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            <div>
+              <p className="text-xl font-semibold">
+                Want to make it more personal? Include footage of your face!
+              </p>
+              <p className="mt-3 text-lg text-muted">
+                The Learning Lab will have 2 cameras recording{" "}
+                <em className="text-foreground">at the same time</em>!
+              </p>
+            </div>
+            <figure>
+              <div className="rounded-2xl border border-line bg-surface p-4 sm:p-6">
+                <CameraSetupDiagram />
+              </div>
+              <figcaption className="mt-3 text-center text-base font-medium">
+                The Learning Lab’s Setup
+              </figcaption>
+            </figure>
           </div>
+        </Subsection>
 
-          <div>
-            <h3 className="mb-6 text-2xl font-semibold">Digital Materials</h3>
+        <Subsection
+          id="editing"
+          number="8.4"
+          title="Editing"
+          lede="Put it all together with beginner-friendly or professional editing software. Less editing means less time, so plan your shots to need as little as possible."
+        >
             <div className="space-y-6">
               {EDITING_SOFTWARE.map((tier) => (
                 <div
@@ -688,53 +808,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* 9. Tips */}
-      <Section id="tips" index={9} eyebrow="Before you start" title="Tips">
-        <div className="grid items-start gap-12 lg:grid-cols-2">
-          <div className="space-y-10">
-            <div>
-              <p className="text-xl font-semibold">
-                Prioritize multi-use and physical visualizations
-              </p>
-              <ul className="mt-5 grid gap-3 sm:grid-cols-3">
-                {[
-                  ["Less props", "Less work"],
-                  ["Less editing", "Less time"],
-                  ["1 visual", "per ~3 sentences"],
-                ].map(([a, b]) => (
-                  <li
-                    key={a}
-                    className="rounded-2xl border border-line bg-surface p-4"
-                  >
-                    <span className="block text-lg font-semibold">{a}</span>
-                    <span className="block text-accent">= {b}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="text-xl font-semibold">
-                Want to make it more personal? Include footage of your face!
-              </p>
-              <p className="mt-3 text-lg text-muted">
-                The Learning Lab will have 2 cameras recording{" "}
-                <em className="text-foreground">at the same time</em>!
-              </p>
-            </div>
-          </div>
-          <figure>
-            <div className="rounded-2xl border border-line bg-surface p-4 sm:p-6">
-              <CameraSetupDiagram />
-            </div>
-            <figcaption className="mt-3 text-center text-base font-medium">
-              The Learning Lab’s Setup
-            </figcaption>
-          </figure>
-        </div>
+        </Subsection>
       </Section>
 
       <footer className="border-t border-line px-5 py-10 text-center text-sm text-muted">

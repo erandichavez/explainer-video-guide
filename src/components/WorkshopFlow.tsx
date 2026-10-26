@@ -8,7 +8,7 @@ const VIEWS: { id: View; label: string; note: string }[] = [
   {
     id: "prep",
     label: "Before the Learning Lab",
-    note: "Start with the script. Everything else builds on it.",
+    note: "Start with the script, then plan your props and gather your digital images. Everything else builds on the script.",
   },
   {
     id: "lab",
