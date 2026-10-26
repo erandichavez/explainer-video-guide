@@ -24,8 +24,8 @@ const ENTRIES: Entry[] = [
   { id: "digital-assets", number: "4.3", label: "Curating Digital Assets", depth: 1 },
   { id: "at-lab", number: "5", label: "At the Learning Lab", depth: 0 },
   { id: "build-props", number: "5.1", label: "Creating Physical Props", depth: 1 },
-  { id: "recording-audio", number: "5.2", label: "Recording Audio", depth: 1 },
-  { id: "filming", number: "5.3", label: "Filming", depth: 1 },
+  { id: "filming", number: "5.2", label: "Filming", depth: 1 },
+  { id: "recording-audio", number: "5.3", label: "Recording Audio", depth: 1 },
   { id: "editing", number: "5.4", label: "Editing", depth: 1 },
 ];
 

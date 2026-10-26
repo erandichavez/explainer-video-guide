@@ -692,9 +692,36 @@ export default function Home() {
             </div>
           </Subsection>
 
+          <Subsection id="filming" number="5.2" title="Filming">
+            <div className="grid items-center gap-12 lg:grid-cols-2">
+              <div>
+                <p className="text-lg text-muted text-pretty">
+                  The Lab films with two cameras at the same time: one on your
+                  face, one looking down at your props.
+                </p>
+                <p className="mt-4 text-muted text-pretty">
+                  Research suggests that simply having your face on screen
+                  doesn’t, by itself, help viewers learn. What helps a little is
+                  what you do on camera: gesturing, pointing and looking at your
+                  audience as you explain. So cut to your face while you’re
+                  actively explaining, and to the overhead camera when the props
+                  are doing the work.
+                </p>
+              </div>
+              <figure>
+                <div className="rounded-2xl border border-line bg-surface p-4 sm:p-6">
+                  <CameraSetupDiagram />
+                </div>
+                <figcaption className="mt-3 text-center text-base font-medium">
+                  The Learning Lab’s Setup
+                </figcaption>
+              </figure>
+            </div>
+          </Subsection>
+
           <Subsection
             id="recording-audio"
-            number="5.2"
+            number="5.3"
             title="Recording Audio"
             lede="Choose whether to narrate as you film or to record your voice on its own. Either way, use your own voice rather than a computer-generated one."
           >
@@ -733,41 +760,6 @@ export default function Home() {
                   </div>
                 </div>
               ))}
-            </div>
-          </Subsection>
-
-          <Subsection
-            id="filming"
-            number="5.3"
-            title="Filming"
-            lede="The Lab films with two cameras at the same time: one on your face, one looking down at your props."
-          >
-            <div className="grid items-center gap-12 lg:grid-cols-2">
-              <div>
-                <p className="text-xl font-semibold">
-                  Want to make it more personal? Include footage of your face!
-                </p>
-                <p className="mt-3 text-lg text-muted">
-                  The Learning Lab will have 2 cameras recording{" "}
-                  <em className="text-foreground">at the same time</em>!
-                </p>
-                <p className="mt-6 text-muted">
-                  Research suggests that simply having your face on screen
-                  doesn’t, by itself, help viewers learn. What helps a little is
-                  what you do on camera: gesturing, pointing and looking at your
-                  audience as you explain. So cut to your face while you’re
-                  actively explaining, and to the overhead camera when the props
-                  are doing the work.
-                </p>
-              </div>
-              <figure>
-                <div className="rounded-2xl border border-line bg-surface p-4 sm:p-6">
-                  <CameraSetupDiagram />
-                </div>
-                <figcaption className="mt-3 text-center text-base font-medium">
-                  The Learning Lab’s Setup
-                </figcaption>
-              </figure>
             </div>
           </Subsection>
 
