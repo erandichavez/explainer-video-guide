@@ -62,7 +62,7 @@ export function Subsection({
       id={id}
       className={
         nested
-          ? "scroll-mt-20 [&:not(:first-child)]:mt-16"
+          ? "[&:not(:first-child)]:mt-16"
           : "border-t border-line pt-14 first:border-t-0 first:pt-0 [&:not(:first-child)]:mt-20"
       }
     >
