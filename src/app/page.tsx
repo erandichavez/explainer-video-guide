@@ -64,20 +64,12 @@ const SYNC_TIPS: readonly Tip[] = [
     body: "Words and pictures together teach better than words alone. Several ideas over one unchanging visual leave viewers nothing to hold on to.",
   },
   {
-    title: "Grow speech and visuals together",
-    body: "As the narration gets more detailed, add detail to the visual: a label, an annotation, a more technical figure. If you can’t, simplify the sentence.",
-  },
-  {
     title: "Bring visuals in on the word",
     body: "Show each visual at the same moment the narration describes it, not a sentence before or after.",
   },
   {
     title: "Point at what you’re describing",
     body: "Use your hand, an arrow or a highlight to show what you’re talking about. Save these cues for what matters, or they lose their effect.",
-  },
-  {
-    title: "Don’t put your narration on screen",
-    body: "Text repeating your narration competes with your voice and the visuals. A few words labelling a key term are fine.",
   },
   {
     title: "Put labels next to what they name",
