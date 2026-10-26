@@ -10,7 +10,7 @@ import SimplifyStepper from "@/components/SimplifyStepper";
 import WorkshopFlow from "@/components/WorkshopFlow";
 import JargonTranslator from "@/components/JargonTranslator";
 import SyncTimeline from "@/components/SyncTimeline";
-import ExampleVideo from "@/components/ExampleVideo";
+import { publicPath } from "@/lib/paths";
 import CameraSetupDiagram from "@/components/CameraSetupDiagram";
 import {
   AudioGraphic,
@@ -104,7 +104,7 @@ const RECORDING_OPTIONS = [
       "Hands-on demonstrations, where actions match words",
       "Sync comes for free: voice and visuals are recorded together",
       "A personal feel, especially with your face on camera",
-      "Minimal editing post-recording: cutting away missed takes, audio balancing, and changing camera views"
+      "Minimal editing post-recording: cutting away missed takes, audio balancing, and changing camera views",
     ],
     cons: [
       "Doing two things is harder than it looks: practice before you film",
@@ -123,7 +123,7 @@ const RECORDING_OPTIONS = [
     cons: [
       "You line every visual up with the voice in the edit",
       "Filmed actions have to be timed to fit the recording",
-      "Editing time can be substantial"
+      "Editing time can be substantial",
     ],
   },
 ];
@@ -132,7 +132,10 @@ const PROP_TYPES = [
   {
     eyebrow: "Made by hand",
     title: "Physical",
-    points: ["Lean physical when possible — less editing time", "Maximal control"],
+    points: [
+      "Lean physical when possible — less editing time",
+      "Maximal control",
+    ],
     images: [
       { src: ehtPoster, alt: "Printed Event Horizon Telescope poster" },
       { src: earthConceptual, alt: "Hand-made paper Earth" },
@@ -303,10 +306,10 @@ export default function Home() {
               </p>
               <p className="text-lg text-pretty sm:text-xl">
                 In an explainer video, you have maximal control over the
-                audience experience. You control what they{" "}
-                <Key>see</Key> and <Key>hear</Key>. You also control the full
-                flow of information, determining what they learn, and the exact
-                order in which they learn it.
+                audience experience. You control what they <Key>see</Key> and{" "}
+                <Key>hear</Key>. You also control the full flow of information,
+                determining what they learn, and the exact order in which they
+                learn it.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -351,246 +354,295 @@ export default function Home() {
         eyebrow="What to watch for"
         title="Explainer Video Example"
       >
-        <ExampleVideo>
-          <aside
-            aria-label="Things to watch for"
-            className="rounded-2xl border border-line bg-surface p-6"
-          >
-            <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
-              While you watch
-            </p>
-            <p className="mt-2 mb-5 text-xl font-semibold">
-              Things to watch for:
-            </p>
-            <dl className="grid gap-5 sm:grid-cols-3">
-              {[
-                ["Props / Assets", "Physical vs digital"],
-                ["Technicality", "Cartoon vs technical figure"],
-                ["Pedagogy", "Defining key terms"],
-              ].map(([term, detail]) => (
-                <div key={term} className="border-l-2 border-accent pl-4">
-                  <dt className="text-lg font-semibold">{term}</dt>
-                  <dd className="mt-0.5 text-muted">{detail}</dd>
-                </div>
-              ))}
-            </dl>
-          </aside>
-        </ExampleVideo>
-      </Section>
-
-      {/* 3. Visuals */}
-      <Section
-        id="visuals"
-        index={3}
-        eyebrow="What the viewer sees"
-        title="Visuals"
-        lede="Choosing, simplifying and building the images that carry your explanation."
-      >
-        <Subsection
-          id="graphics"
-          number="3.1"
-          title="Graphical Representations"
-          lede={
-            <>
-              Build intuition through <em>simplification</em>!
-            </>
-          }
+        <video
+          controls
+          playsInline
+          preload="metadata"
+          poster={publicPath("/videos/astro98-resource-poster.jpg")}
+          className="aspect-video w-full rounded-2xl border border-line bg-surface"
         >
-          <SimplifyStepper />
-        </Subsection>
-
-        <Subsection
-          id="technical"
-          number="3.2"
-          title="Technical Graphics / Figures"
-          lede={
-            <>
-              Establish conceptual understanding first, <em>then</em> technical
-              understanding. Viewers who first meet the key parts in simple
-              form can then follow how they fit together.
-            </>
-          }
+          <source
+            src={publicPath("/videos/astro98-resource.mp4")}
+            type="video/mp4"
+          />
+          Your browser doesn’t support embedded video.
+        </video>
+        <aside
+          aria-label="Things to watch for"
+          className="mt-6 rounded-2xl border border-line bg-surface p-6"
         >
-          <div className="grid gap-8 md:grid-cols-3">
-            <Figure
-              src={earthConceptual}
-              alt="Paper Earth with blank white patches where telescopes will go"
-              caption="Conceptual"
-            />
-            <Figure
-              src={earthDetail}
-              alt="The same paper Earth with telescope icons connected by orange lines"
-              caption="Add Detail"
-            />
-            <Figure
-              src={ehtPoster}
-              alt="Event Horizon Telescope poster: a global network of radio telescopes"
-              caption="Transition to Technical"
-            />
-          </div>
-          <div className="mt-8 flex items-center" aria-hidden="true">
-            <div className="h-1 flex-1 rounded-l-full bg-gradient-to-r from-line via-muted to-foreground" />
-            <span className="h-0 w-0 border-y-[9px] border-l-[14px] border-y-transparent border-l-foreground" />
-          </div>
-          <p className="mt-6 text-center text-xl font-medium">
-            Visual parallels help!
+          <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
+            While you watch
           </p>
-        </Subsection>
-
-        <Subsection
-          id="physical-digital"
-          number="3.3"
-          title={
-            <>
-              Physical <span className="text-muted">vs</span> Digital
-            </>
-          }
-        >
-          <div className="grid gap-6 lg:grid-cols-2">
-            {PROP_TYPES.map((type) => (
-              <div
-                key={type.title}
-                className="flex flex-col overflow-hidden rounded-3xl border border-line bg-surface"
-              >
-                <div className="grid aspect-[16/9] grid-flow-col gap-px bg-line">
-                  {type.images.map((img) => (
-                    <div key={img.alt} className="relative bg-surface-2">
-                      <Image
-                        src={img.src}
-                        alt={img.alt}
-                        fill
-                        placeholder="blur"
-                        sizes="(min-width: 1024px) 33vw, 100vw"
-                        className="object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-                <div className="p-6 sm:p-7">
-                  <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
-                    {type.eyebrow}
-                  </p>
-                  <h4 className="mt-2 text-2xl font-semibold">{type.title}</h4>
-                  <ul className="mt-4 space-y-2">
-                    {type.points.map((point) => (
-                      <li key={point} className="flex gap-2">
-                        <span
-                          aria-hidden="true"
-                          className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-muted"
-                        />
-                        <span>{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+          <p className="mt-2 mb-5 text-xl font-semibold">
+            Things to watch for:
+          </p>
+          <dl className="grid gap-5 sm:grid-cols-3">
+            {[
+              ["Props / Assets", "Physical vs digital"],
+              ["Technicality", "Cartoon vs technical figure"],
+              ["Pedagogy", "Defining key terms"],
+            ].map(([term, detail]) => (
+              <div key={term} className="border-l-2 border-accent pl-4">
+                <dt className="text-lg font-semibold">{term}</dt>
+                <dd className="mt-0.5 text-muted">{detail}</dd>
               </div>
             ))}
-          </div>
+          </dl>
+        </aside>
+        <p className="mt-6 max-w-3xl text-lg text-pretty text-muted">
+          The subsections below break down the moves and elements that make an
+          explainer video like this one work: what the viewer sees (
+          <a
+            href="#visuals"
+            className="text-foreground underline underline-offset-2 hover:text-accent"
+          >
+            2.1 Visuals
+          </a>
+          ), what they hear (
+          <a
+            href="#audio"
+            className="text-foreground underline underline-offset-2 hover:text-accent"
+          >
+            2.2 Audio
+          </a>
+          ), and how the two work together (
+          <a
+            href="#sync"
+            className="text-foreground underline underline-offset-2 hover:text-accent"
+          >
+            2.3 Syncing Visuals &amp; Audio
+          </a>
+          ).
+        </p>
 
-          <div className="mt-6 grid overflow-hidden rounded-3xl border-2 border-accent lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-            <div className="relative aspect-[16/9] lg:aspect-auto lg:min-h-80">
-              <Image
-                src={vlbiBoth}
-                alt="A hand places a 'VLBI' card next to the paper Earth, which has telescope icons joined by glowing orange lines"
-                fill
-                placeholder="blur"
-                sizes="(min-width: 1024px) 60vw, 100vw"
-                className="object-cover"
+        {/* 2.1 Visuals */}
+        <Subsection
+          id="visuals"
+          number="2.1"
+          title="Visuals"
+          lede="Choosing, simplifying and building the images that carry your explanation."
+        >
+          <Subsection
+            nested
+            id="graphics"
+            number="2.1.1"
+            title="Graphical Representations"
+            lede={
+              <>
+                Build intuition through <em>simplification</em>!
+              </>
+            }
+          >
+            <SimplifyStepper />
+          </Subsection>
+
+          <Subsection
+            nested
+            id="technical"
+            number="2.1.2"
+            title="Technical Graphics / Figures"
+            lede={
+              <>
+                Establish conceptual understanding first, <em>then</em>{" "}
+                technical understanding. Viewers who first meet the key parts in
+                simple form can then follow how they fit together.
+              </>
+            }
+          >
+            <div className="grid gap-8 md:grid-cols-3">
+              <Figure
+                src={earthConceptual}
+                alt="Paper Earth with blank white patches where telescopes will go"
+                caption="Conceptual"
+              />
+              <Figure
+                src={earthDetail}
+                alt="The same paper Earth with telescope icons connected by orange lines"
+                caption="Add Detail"
+              />
+              <Figure
+                src={ehtPoster}
+                alt="Event Horizon Telescope poster: a global network of radio telescopes"
+                caption="Transition to Technical"
               />
             </div>
-            <div className="flex flex-col justify-center p-6 sm:p-8">
-              <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
-                Best of both
-              </p>
-              <h4 className="mt-2 text-2xl font-semibold">Why not both!</h4>
-              <p className="mt-4 text-muted">
-                Film your physical props, then layer digital elements, such as
-                labels, highlights or annotations, on top in the edit. You keep
-                the control of physical props and gain the movement of digital
-                ones.
-              </p>
+            <div className="mt-8 flex items-center" aria-hidden="true">
+              <div className="h-1 flex-1 rounded-l-full bg-gradient-to-r from-line via-muted to-foreground" />
+              <span className="h-0 w-0 border-y-[9px] border-l-[14px] border-y-transparent border-l-foreground" />
             </div>
-          </div>
-        </Subsection>
-      </Section>
-
-      {/* 4. Audio */}
-      <Section
-        id="audio"
-        index={4}
-        eyebrow="What the viewer hears"
-        title="Audio"
-        lede="Your narration needs the same simplification as your visuals. Explain out loud rather than with paragraphs of on-screen text, so viewers can watch the visuals while they listen."
-      >
-        <Subsection
-          id="narration"
-          number="4.1"
-          title="Simplifying Your Narration"
-          lede="Translate jargon, and explain each idea concisely and clearly."
-        >
-          <TipGrid tips={AUDIO_PRINCIPLES} className="sm:grid-cols-2 lg:grid-cols-3" />
-        </Subsection>
-
-        <Subsection
-          id="jargon"
-          number="4.2"
-          title="From Jargon to Plain Language"
-          lede="The same three ideas, written two ways. Switch between them to see what changes."
-        >
-          <JargonTranslator />
-        </Subsection>
-      </Section>
-
-      {/* 5. Syncing visuals and audio */}
-      <Section
-        id="sync"
-        index={5}
-        eyebrow="Put it together"
-        title="Syncing Visuals & Audio"
-        lede="Your narration and visuals should complement each other, in timing and in complexity. Each idea you say needs something on screen at the same moment, and the visual should keep pace as the explanation gets more detailed."
-      >
-        <Subsection
-          id="timing"
-          number="5.1"
-          title="Show and Tell at the Same Time"
-          lede="Mayer’s temporal contiguity principle: people learn more deeply when narration and the matching visual are presented together, rather than one before the other. Together, words and picture can be connected as they arrive; apart, the viewer has to hold one in memory while waiting for the other. Compare three versions of the same explanation."
-        >
-          <SyncTimeline />
-
-          <div className="mt-14">
-            <h4 className="text-2xl font-semibold">
-              Building complexity as you go
-            </h4>
-            <p className="mt-2 mb-6 max-w-3xl text-muted">
-              Timing is only half of it. Mayer’s research also shows that people
-              follow complicated material better when it arrives in manageable
-              steps, starting with the simple pieces.
+            <p className="mt-6 text-center text-xl font-medium">
+              Visual parallels help!
             </p>
-            <TipGrid tips={COMPLEXITY_TIPS} className="md:grid-cols-3" />
-          </div>
+          </Subsection>
+
+          <Subsection
+            nested
+            id="physical-digital"
+            number="2.1.3"
+            title={
+              <>
+                Physical <span className="text-muted">vs</span> Digital
+              </>
+            }
+          >
+            <div className="grid gap-6 lg:grid-cols-2">
+              {PROP_TYPES.map((type) => (
+                <div
+                  key={type.title}
+                  className="flex flex-col overflow-hidden rounded-3xl border border-line bg-surface"
+                >
+                  <div className="grid aspect-[16/9] grid-flow-col gap-px bg-line">
+                    {type.images.map((img) => (
+                      <div key={img.alt} className="relative bg-surface-2">
+                        <Image
+                          src={img.src}
+                          alt={img.alt}
+                          fill
+                          placeholder="blur"
+                          sizes="(min-width: 1024px) 33vw, 100vw"
+                          className="object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="p-6 sm:p-7">
+                    <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
+                      {type.eyebrow}
+                    </p>
+                    <h5 className="mt-2 text-2xl font-semibold">
+                      {type.title}
+                    </h5>
+                    <ul className="mt-4 space-y-2">
+                      {type.points.map((point) => (
+                        <li key={point} className="flex gap-2">
+                          <span
+                            aria-hidden="true"
+                            className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-muted"
+                          />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 grid overflow-hidden rounded-3xl border-2 border-accent lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+              <div className="relative aspect-[16/9] lg:aspect-auto lg:min-h-80">
+                <Image
+                  src={vlbiBoth}
+                  alt="A hand places a 'VLBI' card next to the paper Earth, which has telescope icons joined by glowing orange lines"
+                  fill
+                  placeholder="blur"
+                  sizes="(min-width: 1024px) 60vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex flex-col justify-center p-6 sm:p-8">
+                <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
+                  Best of both
+                </p>
+                <h5 className="mt-2 text-2xl font-semibold">Why not both!</h5>
+                <p className="mt-4 text-muted">
+                  Film your physical props, then layer digital elements, such as
+                  labels, highlights or annotations, on top in the edit. You
+                  keep the control of physical props and gain the movement of
+                  digital ones.
+                </p>
+              </div>
+            </div>
+          </Subsection>
         </Subsection>
 
-        <Subsection id="sync-tips" number="5.2" title="Tips for Syncing">
-          <TipGrid tips={SYNC_TIPS} className="sm:grid-cols-2" />
+        {/* 2.2 Audio */}
+        <Subsection
+          id="audio"
+          number="2.2"
+          title="Audio"
+          lede="Your narration needs the same simplification as your visuals. Explain out loud rather than with paragraphs of on-screen text, so viewers can watch the visuals while they listen."
+        >
+          <Subsection
+            nested
+            id="narration"
+            number="2.2.1"
+            title="Simplifying Your Narration"
+            lede="Translate jargon, and explain each idea concisely and clearly."
+          >
+            <TipGrid
+              tips={AUDIO_PRINCIPLES}
+              className="sm:grid-cols-2 lg:grid-cols-3"
+            />
+          </Subsection>
+
+          <Subsection
+            nested
+            id="jargon"
+            number="2.2.2"
+            title="From Jargon to Plain Language"
+            lede="The same three ideas, written two ways. Switch between them to see what changes."
+          >
+            <JargonTranslator />
+          </Subsection>
+        </Subsection>
+
+        {/* 2.3 Syncing Visuals & Audio */}
+        <Subsection
+          id="sync"
+          number="2.3"
+          title="Syncing Visuals &amp; Audio"
+          lede="Your narration and visuals should complement each other, in timing and in complexity. Each idea you say needs something on screen at the same moment, and the visual should keep pace as the explanation gets more detailed."
+        >
+          <Subsection
+            nested
+            id="timing"
+            number="2.3.1"
+            title="Show and Tell at the Same Time"
+            lede="Mayer’s temporal contiguity principle: people learn more deeply when narration and the matching visual are presented together, rather than one before the other. Together, words and picture can be connected as they arrive; apart, the viewer has to hold one in memory while waiting for the other. Compare three versions of the same explanation."
+          >
+            <SyncTimeline />
+
+            <div className="mt-14">
+              <h5 className="text-2xl font-semibold">
+                Building complexity as you go
+              </h5>
+              <p className="mt-2 mb-6 max-w-3xl text-muted">
+                Timing is only half of it. Mayer’s research also shows that
+                people follow complicated material better when it arrives in
+                manageable steps, starting with the simple pieces.
+              </p>
+              <TipGrid tips={COMPLEXITY_TIPS} className="md:grid-cols-3" />
+            </div>
+          </Subsection>
+
+          <Subsection
+            nested
+            id="sync-tips"
+            number="2.3.2"
+            title="Tips for Syncing"
+          >
+            <TipGrid tips={SYNC_TIPS} className="sm:grid-cols-2" />
+          </Subsection>
         </Subsection>
       </Section>
 
-      {/* 6. Workshop flow */}
-      <Section id="flow" index={6} eyebrow="Process" title="Workshop Flow">
+      {/* 3. Workshop flow */}
+      <Section id="flow" index={3} eyebrow="Process" title="Workshop Flow">
         <WorkshopFlow />
       </Section>
 
-      {/* 7. Before the Learning Lab */}
+      {/* 4. Before the Learning Lab */}
       <Section
         id="before-lab"
-        index={7}
+        index={4}
         eyebrow="Start here"
         title="Before the Learning Lab"
         lede="Plan everything you can ahead of time: your script, the props you’ll build and the digital images you’ll show. Then your time in the Lab goes to making, filming and editing."
       >
         <Subsection
           id="script"
-          number="7.1"
+          number="4.1"
           title="Scripting Your Video"
           lede="Plan what the viewer hears and what they see side by side, before you write a single full sentence."
         >
@@ -633,7 +685,7 @@ export default function Home() {
 
         <Subsection
           id="plan-props"
-          number="7.2"
+          number="4.2"
           title="Planning Your Physical Props"
           lede="Decide what you’ll build before you arrive, so Lab time goes to making rather than deciding."
         >
@@ -642,7 +694,7 @@ export default function Home() {
 
         <Subsection
           id="digital-assets"
-          number="7.3"
+          number="4.3"
           title="Curating Digital Assets"
           lede="Gather the existing images and figures you’ll show on screen, and keep track of where each one came from."
         >
@@ -650,17 +702,17 @@ export default function Home() {
         </Subsection>
       </Section>
 
-      {/* 8. At the Learning Lab */}
+      {/* 5. At the Learning Lab */}
       <Section
         id="at-lab"
-        index={8}
+        index={5}
         eyebrow="In the studio"
         title="At the Learning Lab"
         lede="With your plan in hand, the Lab is where you build your props, record, film and edit. All of it can be done there."
       >
         <Subsection
           id="build-props"
-          number="8.1"
+          number="5.1"
           title="Creating Physical Props"
           lede="Bring your prop sketches and build from what’s on the shelves."
         >
@@ -678,7 +730,7 @@ export default function Home() {
 
         <Subsection
           id="recording-audio"
-          number="8.2"
+          number="5.2"
           title="Recording Audio"
           lede="Choose whether to narrate as you film or to record your voice on its own. Either way, use your own voice rather than a computer-generated one."
         >
@@ -698,7 +750,9 @@ export default function Home() {
                     ] as const
                   ).map(([heading, items, tone]) => (
                     <div key={heading}>
-                      <p className={`text-sm font-semibold ${tone}`}>{heading}</p>
+                      <p className={`text-sm font-semibold ${tone}`}>
+                        {heading}
+                      </p>
                       <ul className="mt-2 space-y-2">
                         {items.map((item) => (
                           <li key={item} className="flex gap-2">
@@ -720,7 +774,7 @@ export default function Home() {
 
         <Subsection
           id="filming"
-          number="8.3"
+          number="5.3"
           title="Filming"
           lede="The Lab films with two cameras at the same time: one on your face, one looking down at your props."
         >
@@ -755,39 +809,39 @@ export default function Home() {
 
         <Subsection
           id="editing"
-          number="8.4"
+          number="5.4"
           title="Editing"
           lede="Put it all together with beginner-friendly or professional editing software. Less editing means less time, so plan your shots to need as little as possible."
         >
-            <div className="space-y-6">
-              {EDITING_SOFTWARE.map((tier) => (
-                <div
-                  key={tier.title}
-                  className={`rounded-3xl p-6 ${
-                    tier.recommended
-                      ? "border-2 border-accent"
-                      : "border border-line bg-surface"
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <p className="text-lg font-semibold">{tier.title}</p>
-                      <p className="mt-1 text-sm text-muted">{tier.note}</p>
-                    </div>
-                    {tier.recommended ? (
-                      <span className="shrink-0 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-black">
-                        Start here
-                      </span>
-                    ) : null}
+          <div className="space-y-6">
+            {EDITING_SOFTWARE.map((tier) => (
+              <div
+                key={tier.title}
+                className={`rounded-3xl p-6 ${
+                  tier.recommended
+                    ? "border-2 border-accent"
+                    : "border border-line bg-surface"
+                }`}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-lg font-semibold">{tier.title}</p>
+                    <p className="mt-1 text-sm text-muted">{tier.note}</p>
                   </div>
-                  <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                    {tier.apps.map((app) => (
-                      <LogoTile key={app.name} {...app} />
-                    ))}
-                  </ul>
+                  {tier.recommended ? (
+                    <span className="shrink-0 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-black">
+                      Start here
+                    </span>
+                  ) : null}
                 </div>
-              ))}
-            </div>
+                <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  {tier.apps.map((app) => (
+                    <LogoTile key={app.name} {...app} />
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </Subsection>
       </Section>
 

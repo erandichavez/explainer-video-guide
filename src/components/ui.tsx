@@ -37,33 +37,53 @@ export function Section({
   );
 }
 
-/** A numbered part within a Section, e.g. "3.1". */
+/**
+ * A numbered part within a Section, e.g. "4.1". Use `nested` for a part
+ * inside another Subsection, e.g. "2.1.1", which gets a smaller heading.
+ */
 export function Subsection({
   id,
   number,
   title,
   lede,
+  nested = false,
   children,
 }: {
   id?: string;
   number: string;
   title: ReactNode;
   lede?: ReactNode;
+  nested?: boolean;
   children?: ReactNode;
 }) {
+  const Heading = nested ? "h4" : "h3";
   return (
     <div
       id={id}
-      className="border-t border-line pt-14 first:border-t-0 first:pt-0 [&:not(:first-child)]:mt-20"
+      className={
+        nested
+          ? "scroll-mt-20 [&:not(:first-child)]:mt-16"
+          : "border-t border-line pt-14 first:border-t-0 first:pt-0 [&:not(:first-child)]:mt-20"
+      }
     >
       <p className="mb-3 font-mono text-sm text-accent">{number}</p>
-      <h3 className="text-3xl font-bold tracking-tight text-balance">
+      <Heading
+        className={`font-bold tracking-tight text-balance ${
+          nested ? "text-2xl" : "text-3xl"
+        }`}
+      >
         {title}
-      </h3>
+      </Heading>
       {lede ? (
-        <p className="mt-4 max-w-2xl text-lg text-muted text-pretty">{lede}</p>
+        <p
+          className={`mt-4 max-w-2xl text-muted text-pretty ${
+            nested ? "text-base" : "text-lg"
+          }`}
+        >
+          {lede}
+        </p>
       ) : null}
-      <div className="mt-10">{children}</div>
+      <div className={nested ? "mt-8" : "mt-10"}>{children}</div>
     </div>
   );
 }
