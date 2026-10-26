@@ -1,6 +1,12 @@
 import Image, { type StaticImageData } from "next/image";
 import { Figure, Section, Subsection } from "@/components/ui";
 import { publicPath } from "@/lib/paths";
+import {
+  Evidence,
+  ResearchOverview,
+  TipGrid,
+  type Tip,
+} from "@/components/Research";
 import SimplifyStepper from "@/components/SimplifyStepper";
 import WorkshopFlow from "@/components/WorkshopFlow";
 import JargonTranslator from "@/components/JargonTranslator";
@@ -37,52 +43,78 @@ const NAV = [
   { id: "flow", label: "Workshop flow" },
   { id: "before-lab", label: "Before the Lab" },
   { id: "at-lab", label: "At the Lab" },
+  { id: "research", label: "Research" },
 ];
 
-const AUDIO_PRINCIPLES = [
-  [
-    "Translate jargon",
-    "Say it the way you’d explain it to a friend. Wherever an everyday word exists, use it.",
-  ],
-  [
-    "Define key terms",
-    "When a technical term matters, define it in plain words the first time you say it, then use it the same way every time.",
-  ],
-  [
-    "Use everyday metaphors",
-    "Compare complex ideas to things your audience already knows, like an orange on the Moon for the size of a black hole.",
-  ],
-  [
-    "Keep it concise",
-    "One idea per sentence. Viewers can’t re-read narration, so if a detail doesn’t set up the next idea, cut it.",
-  ],
-  [
-    "Don’t be afraid of pauses",
-    "A pause after a key idea lets your audience breathe and process it. A moment of silence over a good visual is fine.",
-  ],
-  [
-    "Read it aloud",
-    "Read your script out loud. Anything you stumble over, or that you wouldn’t say to a friend, needs rewording.",
-  ],
+const AUDIO_PRINCIPLES: readonly Tip[] = [
+  {
+    title: "Talk with your viewer",
+    body: "Use a conversational style, with “you”, “we” and “let’s”. “Let’s look at how the telescopes link up” draws viewers in more than “This video describes the telescope network.”",
+    cite: ["personalization"],
+  },
+  {
+    title: "Translate jargon",
+    body: "Say it the way you’d explain it to a friend. Wherever an everyday word exists, use it.",
+  },
+  {
+    title: "Define key terms",
+    body: "Introduce the names of the key parts before you explain how they work together, and define each the first time you say it. Viewers who already know the pieces can focus on the explanation.",
+    cite: ["pre-training"],
+  },
+  {
+    title: "Use everyday metaphors",
+    body: "Compare complex ideas to things your audience already knows, like an orange on the Moon for the size of a black hole.",
+  },
+  {
+    title: "Keep it concise",
+    body: "One idea per sentence, and cut asides that are interesting but don’t explain anything. Extra details, however fun, pull attention away from the main idea.",
+    cite: ["coherence"],
+  },
+  {
+    title: "Don’t be afraid of pauses",
+    body: "A pause after a key idea lets your audience breathe and process it. A moment of silence over a good visual is fine.",
+  },
+  {
+    title: "Read it aloud",
+    body: "Read your script out loud. Anything you stumble over, or that you wouldn’t say to a friend, needs rewording.",
+  },
+  {
+    title: "Use your own voice",
+    body: "Record the narration yourself rather than using a text-to-speech voice. Viewers learn more from a natural human voice.",
+    cite: ["voice"],
+  },
 ] as const;
 
-const SYNC_TIPS = [
-  [
-    "Give every idea a visual",
-    "When you introduce a new idea, show something for it. Several ideas spoken over one unchanging visual leave viewers with nothing to hold on to.",
-  ],
-  [
-    "Grow speech and visuals together",
-    "If the narration gets more detailed, add detail to the visual too: a label, an annotation, a more technical figure. If you can’t, simplify the sentence.",
-  ],
-  [
-    "Bring visuals in on the word",
-    "Each visual should appear as the narration mentions it: not a sentence early, where it distracts, or a sentence late, where it confuses.",
-  ],
-  [
-    "Point at what you’re describing",
-    "Use your hand, an arrow or a highlight to show which part of the visual you’re talking about right now.",
-  ],
+const SYNC_TIPS: readonly Tip[] = [
+  {
+    title: "Give every idea a visual",
+    body: "When you introduce a new idea, show something for it. Viewers learn more from words and pictures together than from words alone, and several ideas over one unchanging visual leave them with nothing to hold on to.",
+    cite: ["multimedia"],
+  },
+  {
+    title: "Grow speech and visuals together",
+    body: "If the narration gets more detailed, add detail to the visual too: a label, an annotation, a more technical figure. If you can’t, simplify the sentence.",
+  },
+  {
+    title: "Bring visuals in on the word",
+    body: "Show each visual at the same moment the narration describes it, not a sentence before or after.",
+    cite: ["temporal-contiguity"],
+  },
+  {
+    title: "Point at what you’re describing",
+    body: "Use your hand, an arrow or a highlight to show which part of the visual you’re talking about right now. Keep these cues for what matters, or they lose their effect.",
+    cite: ["signaling", "embodiment"],
+  },
+  {
+    title: "Don’t put your narration on screen",
+    body: "Text that repeats what you’re saying competes with your voice and the visuals. A few words to label a key term or technical name are fine.",
+    cite: ["redundancy"],
+  },
+  {
+    title: "Put labels next to what they name",
+    body: "When you add a label or arrow, place it right beside the part it refers to, not in a caption at the bottom of the screen.",
+    cite: ["spatial-contiguity"],
+  },
 ] as const;
 
 const RECORDING_OPTIONS = [
@@ -167,42 +199,45 @@ const EDITING_SOFTWARE = [
   },
 ];
 
-const PROP_PLANNING = [
-  [
-    "Make props multi-use",
-    "Prioritize physical visualizations you can build on. One prop that grows through the video, like the paper Earth that gains telescopes, does the work of several.",
-  ],
-  [
-    "Fewer props, less work",
-    "Every prop is time to make and time to film. Cut any that don’t carry an idea from your script.",
-  ],
-  [
-    "Sketch each prop",
-    "A quick sketch with rough sizes, colours and any labels or word cards makes building fast once you’re in the Lab.",
-  ],
-  [
-    "Design for the overhead camera",
-    "Props need to fit on the desk and read clearly from above: flat shapes, bold colours and large handwriting.",
-  ],
+const PROP_PLANNING: readonly Tip[] = [
+  {
+    title: "Make props multi-use",
+    body: "Prioritize physical visualizations you can build on. One prop that grows through the video, like the paper Earth that gains telescopes, does the work of several.",
+  },
+  {
+    title: "Fewer props, less work",
+    body: "Every prop is time to make and time to film, and a prop that doesn’t carry an idea from your script distracts from the ones that do. Cut it.",
+    cite: ["coherence"],
+  },
+  {
+    title: "Sketch each prop",
+    body: "A quick sketch with rough sizes, colours and any labels or word cards makes building fast once you’re in the Lab.",
+  },
+  {
+    title: "Design for the overhead camera",
+    body: "Props need to fit on the desk and read clearly from above: flat shapes, bold colours and large handwriting.",
+  },
 ] as const;
 
-const ASSET_CURATION = [
-  [
-    "Use high-resolution originals",
-    "Download the largest version of each existing graphic. Small images and screenshots look blurry once they fill the screen.",
-  ],
-  [
-    "Keep track of sources",
-    "Save the link and credit line for every image as you collect it, so you can credit them in your video.",
-  ],
-  [
-    "Check you can reuse it",
-    "Many science images, such as those from NASA, ESA or the EHT, can be reused with credit. Images from other sources may not be.",
-  ],
-  [
-    "Plan your annotations",
-    "Note where you’ll add arrows, labels or highlights in the edit. Annotation and animation bring movement to still images.",
-  ],
+const ASSET_CURATION: readonly Tip[] = [
+  {
+    title: "Use high-resolution originals",
+    body: "Download the largest version of each existing graphic. Small images and screenshots look blurry once they fill the screen.",
+  },
+  {
+    title: "Leave out the merely interesting",
+    body: "Skip images that are eye-catching but don’t explain anything. Interesting-but-irrelevant extras reduce how much viewers learn.",
+    cite: ["coherence"],
+  },
+  {
+    title: "Track sources and permissions",
+    body: "Save the link and credit line for every image as you collect it. Many science images, such as those from NASA, ESA or the EHT, can be reused with credit; images from other sources may not be.",
+  },
+  {
+    title: "Plan your annotations",
+    body: "Note where you’ll add arrows, labels or highlights in the edit, and plan to place each label right next to the part it names.",
+    cite: ["signaling", "spatial-contiguity"],
+  },
 ] as const;
 
 export default function Home() {
@@ -290,6 +325,7 @@ export default function Home() {
                 your audience needs to follow along. Visuals and the audio can
                 become more complex as the narrative builds them up.
               </p>
+              <Evidence ids={["multimedia"]} className="mt-4" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <ConceptTile label="Narrative">
@@ -375,6 +411,7 @@ export default function Home() {
                 A topic specific to <em>your</em> project
               </li>
             </ul>
+            <Evidence ids={["coherence"]} className="mt-5 justify-center" />
           </div>
         </div>
       </Section>
@@ -398,6 +435,7 @@ export default function Home() {
           }
         >
           <SimplifyStepper />
+          <Evidence ids={["coherence", "signaling"]} className="mt-8" />
         </Subsection>
 
         <Subsection
@@ -407,10 +445,12 @@ export default function Home() {
           lede={
             <>
               Establish conceptual understanding first, <em>then</em> technical
-              understanding.
+              understanding. Viewers who first meet the key parts in simple
+              form can then follow how they fit together.
             </>
           }
         >
+          <Evidence ids={["pre-training"]} className="-mt-4 mb-8" />
           <div className="grid gap-8 md:grid-cols-3">
             <Figure
               src={earthConceptual}
@@ -520,25 +560,16 @@ export default function Home() {
         index={4}
         eyebrow="What the viewer hears"
         title="Audio"
-        lede="Your narration needs the same simplification as your visuals."
+        lede="Your narration needs the same simplification as your visuals. Explain out loud rather than with paragraphs of on-screen text, so viewers can watch the visuals while they listen."
       >
+        <Evidence ids={["modality"]} className="-mt-4 mb-12" />
         <Subsection
           id="narration"
           number="4.1"
           title="Simplifying Your Narration"
           lede="Translate jargon, and explain each idea concisely and clearly."
         >
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {AUDIO_PRINCIPLES.map(([title, body]) => (
-              <li
-                key={title}
-                className="rounded-2xl border border-line bg-surface p-5"
-              >
-                <p className="text-lg font-semibold">{title}</p>
-                <p className="mt-2 text-muted">{body}</p>
-              </li>
-            ))}
-          </ul>
+          <TipGrid tips={AUDIO_PRINCIPLES} className="sm:grid-cols-2 lg:grid-cols-4" />
         </Subsection>
 
         <Subsection
@@ -557,8 +588,12 @@ export default function Home() {
         index={5}
         eyebrow="Put it together"
         title="Syncing Visuals & Audio"
-        lede="Your narration and visuals should complement each other, in timing and in complexity. Each idea you say needs something on screen, and the visual should keep pace as the explanation gets more detailed."
+        lede="Your narration and visuals should complement each other, in timing and in complexity. Each idea you say needs something on screen at the same moment, and the visual should keep pace as the explanation gets more detailed."
       >
+        <Evidence
+          ids={["temporal-contiguity", "multimedia"]}
+          className="-mt-4 mb-12"
+        />
         <Subsection
           id="timing"
           number="5.1"
@@ -569,17 +604,7 @@ export default function Home() {
         </Subsection>
 
         <Subsection id="sync-tips" number="5.2" title="Tips for Syncing">
-          <ul className="grid gap-4 sm:grid-cols-2">
-            {SYNC_TIPS.map(([title, body]) => (
-              <li
-                key={title}
-                className="rounded-2xl border border-line bg-surface p-5"
-              >
-                <p className="text-lg font-semibold">{title}</p>
-                <p className="mt-2 text-muted">{body}</p>
-              </li>
-            ))}
-          </ul>
+          <TipGrid tips={SYNC_TIPS} className="sm:grid-cols-2" />
         </Subsection>
       </Section>
 
@@ -645,17 +670,7 @@ export default function Home() {
           title="Planning Your Physical Props"
           lede="Decide what you’ll build before you arrive, so Lab time goes to making rather than deciding."
         >
-          <ul className="grid gap-4 sm:grid-cols-2">
-            {PROP_PLANNING.map(([title, body]) => (
-              <li
-                key={title}
-                className="rounded-2xl border border-line bg-surface p-5"
-              >
-                <p className="text-lg font-semibold">{title}</p>
-                <p className="mt-2 text-muted">{body}</p>
-              </li>
-            ))}
-          </ul>
+          <TipGrid tips={PROP_PLANNING} className="sm:grid-cols-2" />
         </Subsection>
 
         <Subsection
@@ -664,17 +679,7 @@ export default function Home() {
           title="Curating Digital Assets"
           lede="Gather the existing images and figures you’ll show on screen, and keep track of where each one came from."
         >
-          <ul className="grid gap-4 sm:grid-cols-2">
-            {ASSET_CURATION.map(([title, body]) => (
-              <li
-                key={title}
-                className="rounded-2xl border border-line bg-surface p-5"
-              >
-                <p className="text-lg font-semibold">{title}</p>
-                <p className="mt-2 text-muted">{body}</p>
-              </li>
-            ))}
-          </ul>
+          <TipGrid tips={ASSET_CURATION} className="sm:grid-cols-2" />
         </Subsection>
       </Section>
 
@@ -708,8 +713,9 @@ export default function Home() {
           id="recording-audio"
           number="8.2"
           title="Recording Audio"
-          lede="Choose whether to narrate as you film or to record your voice on its own."
+          lede="Choose whether to narrate as you film or to record your voice on its own. Either way, use your own voice rather than a computer-generated one."
         >
+          <Evidence ids={["voice"]} className="-mt-4 mb-8" />
           <div className="grid gap-6 lg:grid-cols-2">
             {RECORDING_OPTIONS.map((opt) => (
               <div
@@ -761,6 +767,15 @@ export default function Home() {
                 The Learning Lab will have 2 cameras recording{" "}
                 <em className="text-foreground">at the same time</em>!
               </p>
+              <p className="mt-6 text-muted">
+                Research suggests that simply having your face on screen
+                doesn’t, by itself, help viewers learn. What helps a little is
+                what you do on camera: gesturing, pointing and looking at your
+                audience as you explain. So cut to your face while you’re
+                actively explaining, and to the overhead camera when the props
+                are doing the work.
+              </p>
+              <Evidence ids={["image", "embodiment"]} className="mt-4" />
             </div>
             <figure>
               <div className="rounded-2xl border border-line bg-surface p-4 sm:p-6">
@@ -809,6 +824,17 @@ export default function Home() {
               ))}
             </div>
         </Subsection>
+      </Section>
+
+      {/* 9. Research */}
+      <Section
+        id="research"
+        index={9}
+        eyebrow="Why this works"
+        title="The Research Behind This Guide"
+        lede="Much of the advice above follows research-based principles for multimedia instruction summarized by Richard Mayer. Click any research tag on this page to jump to its principle here."
+      >
+        <ResearchOverview />
       </Section>
 
       <footer className="border-t border-line px-5 py-10 text-center text-sm text-muted">

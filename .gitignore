@@ -46,3 +46,6 @@ next-env.d.ts
 
 # local tooling
 /.claude/
+
+# reference reading (copyrighted) stays local
+*.pdf
