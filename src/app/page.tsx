@@ -202,10 +202,6 @@ const PROP_PLANNING: readonly Tip[] = [
     body: "Prioritize physical visualizations you can build on. One prop that grows through the video, like the paper Earth that gains telescopes, does the work of several.",
   },
   {
-    title: "Fewer props, less work",
-    body: "Every prop is time to make and time to film, and a prop that doesn’t carry an idea from your script distracts from the ones that do. Cut it.",
-  },
-  {
     title: "Sketch each prop",
     body: "A quick sketch with rough sizes, colours and any labels or word cards makes building fast once you’re in the Lab.",
   },
@@ -219,10 +215,6 @@ const ASSET_CURATION: readonly Tip[] = [
   {
     title: "Use high-resolution originals",
     body: "Download the largest version of each existing graphic. Small images and screenshots look blurry once they fill the screen.",
-  },
-  {
-    title: "Leave out the merely interesting",
-    body: "Skip images that are eye-catching but don’t explain anything. Interesting-but-irrelevant extras reduce how much viewers learn.",
   },
   {
     title: "Track sources and permissions",
@@ -689,7 +681,7 @@ export default function Home() {
           title="Planning Your Physical Props"
           lede="Decide what you’ll build before you arrive, so Lab time goes to making rather than deciding."
         >
-          <TipGrid tips={PROP_PLANNING} className="sm:grid-cols-2" />
+          <TipGrid tips={PROP_PLANNING} className="md:grid-cols-3" />
         </Subsection>
 
         <Subsection
@@ -698,7 +690,7 @@ export default function Home() {
           title="Curating Digital Assets"
           lede="Gather the existing images and figures you’ll show on screen, and keep track of where each one came from."
         >
-          <TipGrid tips={ASSET_CURATION} className="sm:grid-cols-2" />
+          <TipGrid tips={ASSET_CURATION} className="md:grid-cols-3" />
         </Subsection>
       </Section>
 
